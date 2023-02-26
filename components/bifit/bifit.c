@@ -1,5 +1,4 @@
-#include "load_class/load_class.h"
-#include "string.h"
+#include "bifit.h"
 
 bool identifier_matches_string(bifit_identifier_t *identifier, char *string);
 bifit_class_t *find_class_by_name(bifit_class_t *list, char *identifier);

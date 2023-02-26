@@ -4,3 +4,8 @@ cmake_minimum_required(VERSION 3.5)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(hello_world)
+
+include(EmbedJarContent.cmake)
+SetupEmbed()
+EmbedManifestFile("jar/META-INF/MANIFEST.MF")
+EmbedClassFiles("jar/*.class")

@@ -1,4 +1,4 @@
-#include "bifit.h"
+#include "bifit_types.h"
 #include "load_class_utils.h"
 
 unsigned int load_method(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_method_t *out);
@@ -140,6 +140,8 @@ void load_method_code(bifit_method_t *method) {
             }
 
             unsigned int attr_data_index = 8 + out->byte_code_length;
+            LOG_DEBUG("attr_data_index: %d\n", attr_data_index);
+
             // exception table loading follows here
         }
     }

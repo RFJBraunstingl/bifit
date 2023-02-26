@@ -1,13 +1,11 @@
+#include <stdio.h>
 #define LOG_DEBUG printf
 
-#ifndef BIFIT_STD_H_
-#define BIFIT_STD_H_
+#ifndef BIFIT_TYPES_H_
+#define BIFIT_TYPES_H_
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdbool.h>
-
-#include "classes_combined.h"
 
 /**
  * generic types
@@ -190,10 +188,5 @@ typedef struct bifit_class {
     bifit_methods_t methods;
 
 } bifit_class_t;
-
-/**
- * define interface methods
- */
-void bifit_run();
 
 #endif

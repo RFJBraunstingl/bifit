@@ -1,4 +1,4 @@
-#include "bifit.h"
+#include "bifit_types.h"
 
 int load_next_constant_pool_entry(int index, const uint8_t *data, bifit_constant_pool_entry_t *out);
 

@@ -1,25 +1,25 @@
 function(SetupEmbed)
-    if (NOT EXISTS ${CMAKE_BINARY_DIR}/classes)
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/classes)
+    if (NOT EXISTS ${COMPONENT_DIR}/classes)
+        file(MAKE_DIRECTORY ${COMPONENT_DIR}/classes)
     endif ()
 
     add_library(class_files
-            ${CMAKE_BINARY_DIR}/classes/classes_combined.h
-            ${CMAKE_BINARY_DIR}/classes/classes_combined.c)
-    target_include_directories(class_files PUBLIC ${CMAKE_BINARY_DIR}/classes)
+            ${COMPONENT_DIR}/classes/classes_combined.h
+            ${COMPONENT_DIR}/classes/classes_combined.c)
+    target_include_directories(class_files PUBLIC ${COMPONENT_DIR}/classes)
 
     set(output_h "
 #ifndef CLASSES_COMBINED_H
 #define CLASSES_COMBINED_H
 #include \"stdint.h\"
 ")
-    file(WRITE ${CMAKE_BINARY_DIR}/classes/classes_combined.h
+    file(WRITE ${COMPONENT_DIR}/classes/classes_combined.h
             ${output_h})
 
     set(output_c "
 #include \"classes_combined.h\"
 ")
-    file(WRITE ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(WRITE ${COMPONENT_DIR}/classes/classes_combined.c
             ${output_c})
 endfunction()
 
@@ -43,13 +43,13 @@ function(EmbedManifestFile path)
     set(output_h "
 extern char * bifit_main_class_identifier\;
 ")
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.h
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.h
             ${output_h})
 
     set(output_c "
 char * bifit_main_class_identifier = \"${main_class_identifier}\"\;
 ")
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.c
             ${output_c})
 
 endfunction()
@@ -66,13 +66,13 @@ unsigned int bifit_embedded_class_files_size\;
 #endif // CLASSES_COMBINED_H
 ")
 
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.h
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.h
             ${output_h})
 
     set(output_c "
 classfile_pointer bifit_embedded_class_files[] = {")
 
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.c
             ${output_c})
 
     set(counter 0)
@@ -81,9 +81,9 @@ classfile_pointer bifit_embedded_class_files[] = {")
         MATH(EXPR counter "${counter}+1")
     endforeach ()
 
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.c
             "\n};\n")
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.c
             "unsigned int bifit_embedded_class_files_size = ${counter};")
 
 endfunction()
@@ -132,19 +132,19 @@ extern unsigned ${c_name}_size\;
 #endif // ${c_name}_H
 ")
 
-    file(WRITE ${CMAKE_BINARY_DIR}/classes/${c_name}.c
+    file(WRITE ${COMPONENT_DIR}/classes/${c_name}.c
             ${output_c})
 
-    file(WRITE ${CMAKE_BINARY_DIR}/classes/${c_name}.h
+    file(WRITE ${COMPONENT_DIR}/classes/${c_name}.h
             ${output_h})
 
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.h
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.h
             "\n#include \"${c_name}.h\"")
 
-    file(APPEND ${CMAKE_BINARY_DIR}/classes/classes_combined.c
+    file(APPEND ${COMPONENT_DIR}/classes/classes_combined.c
             "\n${c_name}_data,")
 
-    set(${generated_c} ${CMAKE_BINARY_DIR}/classes/${c_name}.c PARENT_SCOPE)
+    set(${generated_c} ${COMPONENT_DIR}/classes/${c_name}.c PARENT_SCOPE)
 
 endfunction()
 
