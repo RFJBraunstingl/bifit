@@ -1,22 +1,21 @@
 #include "bifit_types.h"
 #include "load_class_utils.h"
 
-unsigned int load_next_field(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_field_t *out);
+unsigned int bifit_load_next_field(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_field_t *out);
+unsigned int bifit_load_field_access_flags(unsigned int index, const uint8_t *data, bifit_field_access_flags_t *out);
 
-unsigned int load_field_access_flags(unsigned int index, const uint8_t *data, bifit_field_access_flags_t *out);
-
-void load_fields(unsigned int start_index, const uint8_t *data, bifit_class_t *out) {
+void bifit_load_fields(unsigned int start_index, const uint8_t *data, bifit_class_t *out) {
 
     unsigned int index = start_index;
 
-    out->fields.field_count = parse_integer_u2(index, data);
+    out->fields.field_count = bifit_parse_integer_u2(index, data);
     LOG_DEBUG("load_fields num of fields: %d\n", out->fields.field_count);
     index += 2;
 
     out->fields.field_array = malloc(sizeof(struct bifit_field) * out->fields.field_count);
 
     for (int i = 0; i < out->fields.field_count; ++i) {
-        index = load_next_field(index, data, out->constant_pool.entries, &out->fields.field_array[i]);
+        index = bifit_load_next_field(index, data, out->constant_pool.entries, &out->fields.field_array[i]);
     }
 
     out->fields.size_in_bytes = index - start_index;
@@ -32,30 +31,30 @@ field_info {
     attribute_info attributes[attributes_count];
 }
 */
-unsigned int load_next_field(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_field_t *out) {
+unsigned int bifit_load_next_field(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_field_t *out) {
 
-    index = load_field_access_flags(index, data, &out->access_flags);
+    index = bifit_load_field_access_flags(index, data, &out->access_flags);
 
-    unsigned int identifier_name_index = parse_integer_u2(index, data);
-    load_identifier_by_name_index(identifier_name_index, entries, &out->name);
+    unsigned int identifier_name_index = bifit_parse_integer_u2(index, data);
+    bifit_load_identifier_by_name_index(identifier_name_index, entries, &out->name);
     index += 2;
 
-    unsigned int descriptor_name_index = parse_integer_u2(index, data);
-    load_identifier_by_name_index(descriptor_name_index, entries, &out->descriptor);
+    unsigned int descriptor_name_index = bifit_parse_integer_u2(index, data);
+    bifit_load_identifier_by_name_index(descriptor_name_index, entries, &out->descriptor);
     index += 2;
 
-    out->attributes_count = parse_integer_u2(index, data);
+    out->attributes_count = bifit_parse_integer_u2(index, data);
     index += 2;
 
     out->attributes = malloc(sizeof(struct bifit_attribute) * out->attributes_count);
     for (int i = 0; i < out->attributes_count; ++i) {
-        index = load_attribute(index, data, entries, &out->attributes[i]);
+        index = bifit_load_attribute(index, data, entries, &out->attributes[i]);
     }
 
     return index;
 }
 
-unsigned int load_field_access_flags(unsigned int index, const uint8_t *data, bifit_field_access_flags_t *out) {
+unsigned int bifit_load_field_access_flags(unsigned int index, const uint8_t *data, bifit_field_access_flags_t *out) {
     uint8_t msb = data[index];
     uint8_t lsb = data[index + 1];
 

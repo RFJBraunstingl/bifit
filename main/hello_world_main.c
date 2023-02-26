@@ -13,6 +13,8 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+#include "bifit.h"
+
 void app_main(void)
 {
     printf("Hello world!\n");
@@ -32,6 +34,8 @@ void app_main(void)
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+
+    bifit_run();
 
     for (int i = 10; i >= 0; i--) {
         printf("Restarting in %d seconds...\n", i);
