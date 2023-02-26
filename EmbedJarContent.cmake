@@ -17,7 +17,7 @@ function(SetupEmbed)
             ${output_h})
 
     set(output_c "
-#include \"classes_combined.h\"
+#include \"include/classes_combined.h\"
 ")
     file(WRITE ${PROJECT_DIR}/components/classes_combined/classes_combined.c
             ${output_c})
@@ -43,7 +43,7 @@ function(EmbedManifestFile path)
     set(output_h "
 extern char * bifit_main_class_identifier\;
 ")
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.h
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_h})
 
     set(output_c "
@@ -56,7 +56,6 @@ endfunction()
 
 function(EmbedClassFiles path)
 
-
     file(GLOB_RECURSE files ${path})
 
     set(output_h "
@@ -66,7 +65,7 @@ unsigned int bifit_embedded_class_files_size\;
 #endif // CLASSES_COMBINED_H
 ")
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.h
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_h})
 
     set(output_c "
@@ -138,8 +137,8 @@ extern unsigned ${c_name}_size\;
     file(WRITE ${PROJECT_DIR}/components/classes_combined/${c_name}.h
             ${output_h})
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.h
-            "\n#include \"${c_name}.h\"")
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+            "\n#include \"../${c_name}.h\"")
 
     file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
             "\n${c_name}_data,")

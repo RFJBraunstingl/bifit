@@ -3,5 +3,6 @@ build
 cmake-build-debug
 
 sdkconfig
-components/classes_combined/**.c
-components/classes_combined/**.h
+components/classes_combined/*.c
+components/classes_combined/*.h
+components/classes_combined/include/classes_combined.h
