@@ -1,4 +1,5 @@
 #include "bifit_types.h"
+#include "classes_combined.h"
 
 #include "../class_header.h"
 #include "../constant_pool.h"

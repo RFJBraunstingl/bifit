@@ -8,7 +8,6 @@
 
 #include "bifit_types.h"
 #include "load_class.h"
-#include "../classes/classes_combined.h"
 
 /**
  * define interface methods

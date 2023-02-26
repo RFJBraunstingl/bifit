@@ -3,4 +3,5 @@ build
 cmake-build-debug
 
 sdkconfig
-components/bifit/classes
+components/classes_combined/**.c
+components/classes_combined/**.h
