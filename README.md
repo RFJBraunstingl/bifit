@@ -1,4 +1,4 @@
-# Hello World Example
+# bifit
 
 Starts a FreeRTOS task to print "Hello World".
 
