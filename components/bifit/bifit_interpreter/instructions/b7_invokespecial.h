@@ -10,7 +10,8 @@ bool bifit_execute_instruction_invokespecial_should_call_superclass() {
     return false; // TODO
 }
 
-unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+unsigned int
+bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
     LOG_DEBUG("invoke instance method\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
@@ -86,8 +87,7 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
             &class_identifier
     );
 
-    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context);
-    invoked_stack_frame->current_class = bifit_class;
+    bifit_method_t *bifit_method = NULL;
     for (int i = 0; i < bifit_class->methods.method_count; ++i) {
         if (!bifit_identifier_matches_identifier(
                 &(method_identifier),
@@ -96,21 +96,19 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
             continue;
         }
 
-        invoked_stack_frame->current_method = &(bifit_class->methods.method_array[i]);
+        bifit_method = &(bifit_class->methods.method_array[i]);
     }
 
-    // pop object ref and pass it as local var #0
+    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context, bifit_class, bifit_method);
+
     bifit_stack_element_t *top_operand_element = bifit_stack_pop(&(stack_frame->operand_stack));
     bifit_operand_t *top_operand = top_operand_element->data;
     bifit_object_reference_t *obj_ref = top_operand->object_reference;
 
-    // push local var
-    bifit_local_variable_t *variable = malloc(sizeof(struct bifit_local_variable));
-    variable->object_reference = obj_ref;
-    bifit_stack_element_t *variable_stack_element = bifit_stack_create_element_with_data(variable);
-    bifit_stack_push(&(stack_frame->local_variable_stack), variable_stack_element);
+    stack_frame->local_variable_array[0].object_reference = obj_ref;
 
-    // invoked_stack_frame->local_variable_head
+    bifit_stack_element_t *frame_stack_element = bifit_stack_create_element_with_data(invoked_stack_frame);
+    bifit_stack_push(&(context->frame_stack),frame_stack_element);
     bifit_execute_current_stack_frame_in_context(context);
 
     // free popped operand stack element
