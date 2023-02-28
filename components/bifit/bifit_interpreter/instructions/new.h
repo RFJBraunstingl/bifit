@@ -1,6 +1,6 @@
-#include "bifit_interpreter_common.h"
+#include "../bifit_interpreter_common.h"
 
-unsigned int bifit_execute_instruction_bb(unsigned int pc, bifit_stack_frame_t *stack_frame) {
+unsigned int bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame) {
     LOG_DEBUG("create new object\n");
     const uint8_t *code = stack_frame->current_method->code.byte_code;
 

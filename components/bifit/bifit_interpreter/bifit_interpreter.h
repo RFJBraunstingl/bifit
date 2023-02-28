@@ -1,7 +1,8 @@
 #ifndef BIFIT_INTERPRETER_H_
 #define BIFIT_INTERPRETER_H_
 
-#include "bb.h"
+#include "instructions/new.h"
+#include "instructions/dup.h"
 
 void bifit_execute_main_frame(bifit_stack_frame_t *main_frame) {
     LOG_DEBUG("bifit_execute_main_frame\n");
@@ -17,8 +18,12 @@ void bifit_execute_main_frame(bifit_stack_frame_t *main_frame) {
 
         switch (code[pc]) {
 
+            case 0x59:
+                pc = bifit_execute_instruction_dup(pc, main_frame);
+                break;
+
             case 0xbb:
-                pc = bifit_execute_instruction_bb(pc, main_frame);
+                pc = bifit_execute_instruction_new(pc, main_frame);
                 break;
 
             default:
