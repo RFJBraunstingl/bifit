@@ -19,7 +19,7 @@ function(SetupEmbed)
     set(output_c "
 #ifndef BIFIT_CLASSES_COMBINED_H_
 #define BIFIT_CLASSES_COMBINED_H_
-#include \"include/classes.h\"
+#include \"../lib/classes.h\"
 ")
     file(WRITE ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_c})
@@ -75,7 +75,7 @@ classfile_pointer bifit_embedded_class_files[] = {")
     set(output_combined "
 \n};\n
 unsigned int bifit_embedded_class_files_size = ${counter};
-#endif // CLASSES_COMBINED_H
+#endif // BIFIT_CLASSES_COMBINED_H_
 ")
 
     file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
@@ -85,7 +85,7 @@ unsigned int bifit_embedded_class_files_size = ${counter};
 typedef uint8_t * classfile_pointer\;
 extern classfile_pointer bifit_embedded_class_files[]\;
 unsigned int bifit_embedded_class_files_size\;
-#endif // CLASSES_COMBINED_H
+#endif // BIFIT_CLASSES_H_
 ")
 
     file(APPEND ${PROJECT_DIR}/components/classes_combined/lib/classes.h
