@@ -1,4 +1,4 @@
-#include "../bifit_types.h"
+#include "../bifit_common.h"
 
 #define BIFIT_CLASS_IDENTIFIER_SIZE_IN_BYTES 2
 

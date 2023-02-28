@@ -1,4 +1,4 @@
-#include "../bifit_types.h"
+#include "../bifit_common.h"
 
 void bifit_load_interfaces(unsigned int start_index, const uint8_t data[], bifit_class_t *out) {
     LOG_DEBUG("load_interfaces\n");

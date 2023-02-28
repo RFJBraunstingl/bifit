@@ -6,24 +6,8 @@
 #include <stdbool.h>
 #include "string.h"
 
-#include "../bifit_classloader/load_class.h"
-
-bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *string) {
-    LOG_DEBUG("identifier_matches_string checking identifier ");
-    bifit_log_bifit_identifier(identifier);
-    LOG_DEBUG("\n");
-    if (identifier->identifier_length != strlen(string)) {
-        return false;
-    }
-
-    for (int i = 0; i < identifier->identifier_length; ++i) {
-        if ((identifier->identifier)[i] != string[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
+#include "../bifit_classloader/bifit_classloader.h"
+#include "../bifit_interpreter/bifit_interpreter.h"
 
 bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, char *identifier) {
     for (int i = 0; i < bifit_embedded_class_files_size; ++i) {
@@ -35,22 +19,11 @@ bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, char *identif
     return NULL;
 }
 
-void bifit_run() {
+void bifit_find_main_method_in_class(bifit_class_t *clazz, bifit_stack_frame_t *out) {
+    LOG_DEBUG("scanning for main method...\n");
+    unsigned int main_class_method_count = clazz->methods.method_count;
+    bifit_method_t *main_class_methods = clazz->methods.method_array;
 
-    bifit_class_t *class_list = bifit_load_embedded_classes();
-    LOG_DEBUG("classes loaded!\n");
-
-    bifit_class_t *main_class = bifit_find_class_by_name(class_list, bifit_main_class_identifier);
-    if (main_class == NULL) {
-        printf("ERROR: main class %s not found in loaded class_list!\n", bifit_main_class_identifier);
-        exit(1);
-    }
-    LOG_DEBUG("main class found: %s\n", bifit_main_class_identifier);
-
-    // bifit_execute_main_method_for_class();
-    unsigned int main_class_method_count = main_class->methods.method_count;
-    bifit_method_t *main_class_methods = main_class->methods.method_array;
-    bifit_method_t *main_method_of_class;
     for (int i = 0; i < main_class_method_count; ++i) {
 
         bifit_method_t current_method = main_class_methods[i];
@@ -80,9 +53,31 @@ void bifit_run() {
         }
 
         // main method found
-        LOG_DEBUG("main method found...starting execution\n");
-        main_method_of_class = &current_method;
+        out->current_method = &clazz->methods.method_array[i];
+        return;
     }
+
+    LOG_ERROR("could not find main method to execute!");
+    exit(1);
+}
+
+void bifit_run() {
+
+    bifit_class_t *class_list = bifit_load_embedded_classes();
+    LOG_DEBUG("classes loaded!\n");
+
+    bifit_class_t *main_class = bifit_find_class_by_name(class_list, bifit_main_class_identifier);
+    if (main_class == NULL) {
+        printf("ERROR: main class %s not found in loaded class_list!\n", bifit_main_class_identifier);
+        exit(1);
+    }
+    LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
+
+    bifit_stack_frame_t *main_frame = malloc(sizeof(struct bifit_stack_frame));
+    bifit_find_main_method_in_class(main_class, main_frame);
+
+    LOG_DEBUG("main method found!\n\n");
+    bifit_execute_main_frame(main_frame);
 }
 
 #endif
