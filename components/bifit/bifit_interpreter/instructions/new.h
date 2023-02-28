@@ -9,10 +9,12 @@ unsigned int bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t 
     LOG_DEBUG("const_pool_index: %d\n", const_pool_index);
 
     /* i.e.:
+     * const_pool_index == 2
+     * ---
      * reading constant pool entry 2
      * constant has tag 7 (class ref)
      * name_index was 45
-     * ---
+     *
      * reading constant pool entry 45
      * constant has tag 1 (UTF-8 constant)
      * length was 13
