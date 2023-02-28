@@ -1,18 +1,21 @@
 #ifndef BIFIT_INTERPRETER_H_
 #define BIFIT_INTERPRETER_H_
 
+#include "instructions/4c_astore1.h"
 #include "instructions/59_dup.h"
 #include "instructions/b7_invokespecial.h"
 #include "instructions/bb_new.h"
 
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_main_frame\n");
+    bifit_stack_element_t *top_frame_stack_element = bifit_stack_peek(&(context->frame_stack));
+    bifit_stack_frame_t *stack_frame = top_frame_stack_element->data;
 
     LOG_DEBUG("gather method\n");
-    bifit_method_code_t method_code = context->stack_frame->current_method->code;
+    bifit_method_code_t method_code = stack_frame->current_method->code;
 
     LOG_DEBUG("main_frame got method ");
-    bifit_log_bifit_identifier(&(context->stack_frame->current_method->name));
+    bifit_log_bifit_identifier(&(stack_frame->current_method->name));
     LOG_DEBUG("\n");
 
     const uint8_t *code = method_code.byte_code;
@@ -22,19 +25,19 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
         switch (code[pc]) {
 
             case 0x4c:
-                pc = ;
+                pc = bifit_execute_instruction_astore1(pc, stack_frame);
                 break;
 
             case 0x59:
-                pc = bifit_execute_instruction_dup(pc, context);
+                pc = bifit_execute_instruction_dup(pc, stack_frame);
                 break;
 
             case 0xb7:
-                pc = bifit_execute_instruction_invokespecial(pc, context);
+                pc = bifit_execute_instruction_invokespecial(pc, stack_frame, context);
                 break;
 
             case 0xbb:
-                pc = bifit_execute_instruction_new(pc, context);
+                pc = bifit_execute_instruction_new(pc, stack_frame, context);
                 break;
 
             default:

@@ -122,18 +122,4 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
     exit(1);
 }
 
-bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context) {
-    bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));
-
-    LOG_DEBUG("allocation done - pushing frame onto stack\n");
-    new_stack_frame->prev_frame = context->stack_frame;
-    context->stack_frame->next_frame = new_stack_frame;
-    context->stack_frame = new_stack_frame;
-
-    new_stack_frame->local_variable_stack.top = NULL;
-    new_stack_frame->operand_stack.top = NULL;
-
-    return new_stack_frame;
-}
-
 #endif

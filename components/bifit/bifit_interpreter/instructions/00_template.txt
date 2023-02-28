@@ -1,6 +1,6 @@
 #include "../common/bifit_interpreter_common.h"
 
-unsigned int bifit_execute_instruction_(unsigned int pc, bifit_context_t *context) {
+unsigned int bifit_execute_instruction_(unsigned int pc, bifit_stack_frame_t *stack_frame) {
 
     return pc;
 }

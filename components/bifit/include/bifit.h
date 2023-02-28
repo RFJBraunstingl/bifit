@@ -9,9 +9,8 @@
 #include "../bifit_classloader/bifit_classloader.h"
 #include "../bifit_interpreter/bifit_interpreter.h"
 
-void bifit_find_main_method_in_class(bifit_class_t *clazz, bifit_stack_frame_t *out) {
+bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
     LOG_DEBUG("scanning for main method...\n");
-    out->current_class = clazz;
 
     unsigned int main_class_method_count = clazz->methods.method_count;
     bifit_method_t *main_class_methods = clazz->methods.method_array;
@@ -45,8 +44,7 @@ void bifit_find_main_method_in_class(bifit_class_t *clazz, bifit_stack_frame_t *
         }
 
         // main method found
-        out->current_method = &clazz->methods.method_array[i];
-        return;
+        return &clazz->methods.method_array[i];
     }
 
     LOG_ERROR("could not find main method to execute!");
@@ -72,11 +70,17 @@ void bifit_run() {
     LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
     // construct main frame
-    bifit_stack_frame_t *main_frame = bifit_allocate_stack_frame(context);
-    bifit_find_main_method_in_class(main_class, main_frame);
+    bifit_stack_frame_t *main_frame = bifit_allocate_stack_frame(
+            context,
+            main_class,
+            bifit_find_main_method_in_class(main_class)
+    );
 
     LOG_DEBUG("main method found!\n\n");
-    context->stack_frame = main_frame;
+    bifit_stack_push(
+            &(context->frame_stack),
+            bifit_stack_create_element_with_data(main_frame)
+    );
     bifit_execute_current_stack_frame_in_context(context);
 }
 
