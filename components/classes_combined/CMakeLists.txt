@@ -1,2 +1,3 @@
-idf_component_register(SRCS "classes_combined.c"
-        INCLUDE_DIRS "include")
+idf_component_register(SRCS ""
+        INCLUDE_DIRS "include"
+        PRIV_INCLUDE_DIRS "lib")

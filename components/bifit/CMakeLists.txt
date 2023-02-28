@@ -1,3 +1,3 @@
 idf_component_register(SRCS ""
         INCLUDE_DIRS "include"
-        REQUIRES classes_combined)
+        PRIV_REQUIRES classes_combined)

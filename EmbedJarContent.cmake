@@ -4,22 +4,24 @@ function(SetupEmbed)
     endif ()
 
     # add_library(class_files
-    #         ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+    #         ${PROJECT_DIR}/components/classes_combined/lib/classes.h
     #         ${PROJECT_DIR}/components/classes_combined/classes_combined.c)
     # target_include_directories(class_files PUBLIC ${PROJECT_DIR}/classes)
 
     set(output_h "
-#ifndef CLASSES_COMBINED_H
-#define CLASSES_COMBINED_H
+#ifndef BIFIT_CLASSES_H_
+#define BIFIT_CLASSES_H_
 #include \"stdint.h\"
 ")
-    file(WRITE ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+    file(WRITE ${PROJECT_DIR}/components/classes_combined/lib/classes.h
             ${output_h})
 
     set(output_c "
-#include \"include/classes_combined.h\"
+#ifndef BIFIT_CLASSES_COMBINED_H_
+#define BIFIT_CLASSES_COMBINED_H_
+#include \"include/classes.h\"
 ")
-    file(WRITE ${PROJECT_DIR}/components/classes_combined/classes_combined.c
+    file(WRITE ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_c})
 endfunction()
 
@@ -43,13 +45,13 @@ function(EmbedManifestFile path)
     set(output_h "
 extern char * bifit_main_class_identifier\;
 ")
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/lib/classes.h
             ${output_h})
 
     set(output_c "
 char * bifit_main_class_identifier = \"${main_class_identifier}\"\;
 ")
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_c})
 
 endfunction()
@@ -61,7 +63,7 @@ function(EmbedClassFiles path)
     set(output_c "
 classfile_pointer bifit_embedded_class_files[] = {")
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             ${output_c})
 
     set(counter 0)
@@ -70,10 +72,14 @@ classfile_pointer bifit_embedded_class_files[] = {")
         MATH(EXPR counter "${counter}+1")
     endforeach ()
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
-            "\n};\n")
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
-            "unsigned int bifit_embedded_class_files_size = ${counter};")
+    set(output_combined "
+\n};\n
+unsigned int bifit_embedded_class_files_size = ${counter};
+#endif // CLASSES_COMBINED_H
+")
+
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+            ${output_combined})
 
     set(output_h "
 typedef uint8_t * classfile_pointer\;
@@ -82,7 +88,7 @@ unsigned int bifit_embedded_class_files_size\;
 #endif // CLASSES_COMBINED_H
 ")
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/lib/classes.h
             ${output_h})
 
 endfunction()
@@ -90,7 +96,6 @@ endfunction()
 function(EmbedClassFile file)
     message("embed class file ${file}")
     ClassFileGenerate(${file} var)
-    # target_sources(class_files PUBLIC ${var})
 endfunction()
 
 function(ClassFileGenerate file generated_c)
@@ -126,13 +131,13 @@ unsigned ${c_name}_size = sizeof(${c_name}_data)\;
 ")
 
     # TODO: PRIV_INCLUDE_DIRS?
-    file(WRITE ${PROJECT_DIR}/components/classes_combined/include/${c_name}.h
+    file(WRITE ${PROJECT_DIR}/components/classes_combined/lib/${c_name}.h
             ${output_h})
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/lib/classes.h
             "\n#include \"${c_name}.h\"")
 
-    file(APPEND ${PROJECT_DIR}/components/classes_combined/classes_combined.c
+    file(APPEND ${PROJECT_DIR}/components/classes_combined/include/classes_combined.h
             "\n${c_name}_data,")
 
     set(${generated_c} ${PROJECT_DIR}/components/classes_combined/${c_name}.c PARENT_SCOPE)
