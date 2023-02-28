@@ -13,13 +13,13 @@ typedef struct bifit_operand_stack_element {
 
     bifit_object_reference_t *object_reference;
     struct bifit_operand_stack_element *next;
+    struct bifit_operand_stack_element *prev;
 
 } bifit_operand_stack_element_t;
 
 typedef struct bifit_operand_stack {
 
     bifit_operand_stack_element_t *top;
-    bifit_operand_stack_element_t *bottom;
 
 } bifit_operand_stack_t;
 

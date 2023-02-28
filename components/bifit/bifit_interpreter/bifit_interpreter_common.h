@@ -3,6 +3,10 @@
 
 #include "../bifit_common/bifit_common.h"
 
+void bifit_execute_frame(bifit_stack_frame_t *stack_frame) {
+
+}
+
 static unsigned int object_reference_counter = 0;
 
 bifit_object_t *bifit_create_object() {
@@ -20,11 +24,27 @@ void bifit_operand_stack_push(bifit_operand_stack_t *operand_stack,
     if (operand_stack->top == NULL) {
         LOG_DEBUG("stack was empty - element is top now\n");
         operand_stack->top = new_element;
-        operand_stack->bottom = new_element;
+        new_element->prev = NULL;
     } else {
         LOG_DEBUG("push element on top...\n");
         operand_stack->top->next = new_element;
+        new_element->prev = operand_stack->top;
         operand_stack->top = new_element;
+    }
+}
+
+bifit_operand_stack_element_t *bifit_operand_stack_pop(bifit_operand_stack_t *operand_stack) {
+
+    LOG_DEBUG("bifit_operand_stack_pop\n");
+
+    if (operand_stack->top == NULL) {
+        LOG_DEBUG("ERROR: stack was empty - can not pop\n");
+        exit(1);
+    } else {
+        bifit_operand_stack_element_t *ref = operand_stack->top;
+        operand_stack->top = operand_stack->top->prev;
+        operand_stack->top = NULL;
+        return ref;
     }
 }
 

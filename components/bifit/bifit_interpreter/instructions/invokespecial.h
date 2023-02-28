@@ -81,5 +81,30 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
         // ...
     }
 
+    bifit_class_t *bifit_class = bifit_find_class_by_identifier(
+            stack_frame->bifit_context,
+            &class_identifier
+    );
+
+    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(stack_frame->bifit_context);
+    invoked_stack_frame->current_class = bifit_class;
+    for (int i = 0; i < bifit_class->methods.method_count; ++i) {
+        if (!bifit_identifier_matches_identifier(
+                &(method_identifier),
+                &(bifit_class->methods.method_array[i].name)
+        )) {
+            continue;
+        }
+
+        invoked_stack_frame->current_method = &(bifit_class->methods.method_array[i]);
+    }
+
+    // pop object ref and pass it as local var #0
+    bifit_operand_stack_element_t *object_ref_element = bifit_operand_stack_pop(&(stack_frame->operand_stack));
+
+    // push local var
+    // invoked_stack_frame->local_variable_head
+    // free stack element
+
     return ++pc;
 }

@@ -38,12 +38,6 @@ unsigned int bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t 
             stack_frame->bifit_context,
             &class_identifier
     );
-    if (bifit_class == NULL) {
-        // class not found
-        LOG_ERROR("class not found error: ");
-        bifit_log_bifit_identifier(&class_identifier);
-        LOG_ERROR("\n");
-    }
 
     LOG_DEBUG("create new object reference for class\n");
     bifit_object_t *new_object = bifit_create_object();

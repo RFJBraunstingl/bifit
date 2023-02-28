@@ -116,7 +116,11 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
         }
     }
 
-    return NULL;
+    LOG_ERROR("class not found error: ");
+    bifit_log_bifit_identifier(identifier);
+    LOG_ERROR("\n");
+
+    exit(1);
 }
 
 bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context) {
