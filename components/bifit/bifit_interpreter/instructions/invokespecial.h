@@ -100,14 +100,21 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_cont
     }
 
     // pop object ref and pass it as local var #0
-    bifit_operand_stack_element_t *object_ref_element =
-            bifit_operand_stack_pop(&(context->stack_frame->operand_stack));
+    bifit_stack_element_t *top_operand_element = bifit_stack_pop(&(context->stack_frame->operand_stack));
+    bifit_operand_t *top_operand = top_operand_element->data;
+    bifit_object_reference_t *obj_ref = top_operand->object_reference;
 
     // push local var
-    bifit_object_reference_t *obj_ref = object_ref_element->object_reference;
-    invoked_stack_frame->local_variable_stack
+    bifit_local_variable_t *variable = malloc(sizeof(struct bifit_local_variable));
+    variable->object_reference = obj_ref;
+    bifit_stack_element_t *variable_stack_element = bifit_stack_create_element_with_data(variable);
+    bifit_stack_push(&(context->stack_frame->local_variable_stack), variable_stack_element);
+
     // invoked_stack_frame->local_variable_head
-    // free stack element
+    bifit_execute_current_stack_frame_in_context(context);
+
+    // free popped operand stack element
+    free(top_operand_element);
 
     return ++pc;
 }

@@ -1,42 +1,27 @@
 #ifndef BIFIT_COMMON_TYPES_EXECUTION_H_
 #define BIFIT_COMMON_TYPES_EXECUTION_H_
 
+#include "../stack/bifit_common_stack.h"
 #include "class_types.h"
 
-typedef struct bifit_local_variable_stack_element {
+typedef struct bifit_local_variable {
 
     bifit_object_reference_t *object_reference;
-    struct bifit_local_variable_stack_element *next;
-    struct bifit_local_variable_stack_element *prev;
 
-} bifit_local_variable_stack_element_t;
+} bifit_local_variable_t;
 
-typedef struct bifit_local_variable_stack {
-
-    bifit_local_variable_stack_element_t *top;
-
-} bifit_local_variable_stack_t;
-
-typedef struct bifit_operand_stack_element {
+typedef struct bifit_operand {
 
     bifit_object_reference_t *object_reference;
-    struct bifit_operand_stack_element *next;
-    struct bifit_operand_stack_element *prev;
 
-} bifit_operand_stack_element_t;
-
-typedef struct bifit_operand_stack {
-
-    bifit_operand_stack_element_t *top;
-
-} bifit_operand_stack_t;
+} bifit_operand_t;
 
 typedef struct bifit_stack_frame {
 
     bifit_class_t *current_class;
     bifit_method_t *current_method;
-    bifit_local_variable_stack_t local_variable_stack;
-    bifit_operand_stack_t operand_stack;
+    bifit_stack_t local_variable_stack;
+    bifit_stack_t operand_stack;
 
     struct bifit_stack_frame *next_frame;
     struct bifit_stack_frame *prev_frame;

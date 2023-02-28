@@ -76,7 +76,8 @@ void bifit_run() {
     bifit_find_main_method_in_class(main_class, main_frame);
 
     LOG_DEBUG("main method found!\n\n");
-    bifit_execute_stack_frame(main_frame);
+    context->stack_frame = main_frame;
+    bifit_execute_current_stack_frame_in_context(context);
 }
 
 #endif

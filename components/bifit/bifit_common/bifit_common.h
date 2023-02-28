@@ -1,10 +1,9 @@
-#define LOG_DEBUG printf
-#define LOG_ERROR printf
-
 #ifndef BIFIT_COMMON_H_
 #define BIFIT_COMMON_H_
 
+#include "bifit_defs.h"
 #include "types/bifit_types.h"
+#include "stack/bifit_common_stack.h"
 
 #include <stdio.h>
 #include <string.h>
