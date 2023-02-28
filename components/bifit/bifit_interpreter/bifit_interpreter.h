@@ -21,6 +21,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
         switch (code[pc]) {
 
+            case 0x4c:
+                pc = ;
+                break;
+
             case 0x59:
                 pc = bifit_execute_instruction_dup(pc, context);
                 break;
