@@ -9,16 +9,6 @@
 #include "../bifit_classloader/bifit_classloader.h"
 #include "../bifit_interpreter/bifit_interpreter.h"
 
-bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, char *identifier) {
-    for (int i = 0; i < bifit_embedded_class_files_size; ++i) {
-        if (bifit_identifier_matches_string(&(class_list[i].this_class), identifier)) {
-            return &class_list[i];
-        }
-    }
-
-    return NULL;
-}
-
 void bifit_find_main_method_in_class(bifit_class_t *clazz, bifit_stack_frame_t *out) {
     LOG_DEBUG("scanning for main method...\n");
     out->current_class = clazz;
@@ -68,7 +58,11 @@ void bifit_run() {
     bifit_class_t *class_list = bifit_load_embedded_classes();
     LOG_DEBUG("classes loaded!\n");
 
-    bifit_class_t *main_class = bifit_find_class_by_name(class_list, bifit_main_class_identifier);
+    bifit_class_t *main_class = bifit_find_class_by_name(
+            class_list,
+            bifit_embedded_class_files_size,
+            bifit_main_class_identifier
+    );
     if (main_class == NULL) {
         printf("ERROR: main class %s not found in loaded class_list!\n", bifit_main_class_identifier);
         exit(1);

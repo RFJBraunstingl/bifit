@@ -187,6 +187,12 @@ typedef struct bifit_class {
 
 } bifit_class_t;
 
+typedef struct bifit_context {
+
+    bifit_class_t *class_list;
+
+} bifit_context_t;
+
 typedef struct bifit_local_variable {
 
     struct bifit_local_variable *next;

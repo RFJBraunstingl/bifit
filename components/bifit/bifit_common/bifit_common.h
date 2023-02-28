@@ -10,7 +10,7 @@
 
 unsigned int bifit_parse_integer_u2(unsigned int index, const uint8_t data[]) {
     unsigned int result = data[index];
-    result  = result << 8;
+    result = result << 8;
 
     result += data[index + 1];
 
@@ -38,7 +38,8 @@ void bifit_log_identifier_with_length(const uint8_t *identifier, unsigned int id
     }
 }
 
-void bifit_load_identifier_by_name_index(unsigned int name_index, bifit_constant_pool_entry_t *entries, bifit_identifier_t *out) {
+void bifit_load_identifier_by_name_index(unsigned int name_index, bifit_constant_pool_entry_t *entries,
+                                         bifit_identifier_t *out) {
     // NOTE: indexing in constant pool starts with 1!
     bifit_constant_pool_entry_t identifier_entry = entries[name_index - 1];
     LOG_DEBUG("load_identifier_by_name_index ");
@@ -58,6 +59,7 @@ bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *strin
     LOG_DEBUG("identifier_matches_string checking identifier ");
     bifit_log_bifit_identifier(identifier);
     LOG_DEBUG("\n");
+
     if (identifier->identifier_length != strlen(string)) {
         return false;
     }
@@ -69,6 +71,48 @@ bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *strin
     }
 
     return true;
+}
+
+bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, unsigned int class_list_size, char *identifier) {
+    for (int i = 0; i < class_list_size; ++i) {
+        if (bifit_identifier_matches_string(
+                &(class_list[i].this_class),
+                identifier
+        )) {
+
+            return &class_list[i];
+        }
+    }
+
+    return NULL;
+}
+
+bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identifier_t *right) {
+    if (left->identifier_length != right->identifier_length) {
+        return false;
+    }
+
+    for (int i = 0; i < left->identifier_length; ++i) {
+        if ((left->identifier)[i] != (right->identifier)[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bifit_class_t *bifit_find_class_by_identifier(bifit_class_t *class_list, unsigned int class_list_size,
+                                              bifit_identifier_t *identifier) {
+    for (int i = 0; i < class_list_size; ++i) {
+        if (bifit_identifier_matches_identifier(
+                &(class_list[i].this_class),
+                identifier)) {
+
+            return &class_list[i];
+        }
+    }
+
+    return NULL;
 }
 
 #endif
