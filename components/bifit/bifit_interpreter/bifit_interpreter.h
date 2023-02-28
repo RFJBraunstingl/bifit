@@ -5,14 +5,14 @@
 #include "instructions/invokespecial.h"
 #include "instructions/new.h"
 
-void bifit_execute_current_stack_frame_in_context(bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_main_frame\n");
 
     LOG_DEBUG("gather method\n");
-    bifit_method_code_t method_code = stack_frame->current_method->code;
+    bifit_method_code_t method_code = context->stack_frame->current_method->code;
 
     LOG_DEBUG("main_frame got method ");
-    bifit_log_bifit_identifier(&stack_frame->current_method->name);
+    bifit_log_bifit_identifier(&(context->stack_frame->current_method->name));
     LOG_DEBUG("\n");
 
     const uint8_t *code = method_code.byte_code;
