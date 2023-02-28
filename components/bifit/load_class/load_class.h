@@ -1,19 +1,16 @@
-#include "include/load_class.h"
+#ifndef BIFIT_LOAD_CLASS_H_
+#define BIFIT_LOAD_CLASS_H_
 
-/* impl */
-bifit_class_t *bifit_load_embedded_classes() {
+#include "../bifit_types.h"
+#include "classes_combined.h"
 
-    unsigned int number_of_classes = bifit_embedded_class_files_size;
-
-    bifit_class_t *classes = malloc(sizeof(struct bifit_class) * number_of_classes);
-
-    for (int i = 0; i < number_of_classes; i++) {
-        uint8_t *class_file = bifit_embedded_class_files[i];
-        bifit_load_class(class_file, &classes[i]);
-    }
-
-    return classes;
-}
+#include "class_header.h"
+#include "constant_pool.h"
+#include "class_access_flags.h"
+#include "class_identifier.h"
+#include "interfaces.h"
+#include "fields.h"
+#include "methods.h"
 
 void bifit_load_class(const uint8_t *data, bifit_class_t *out) {
 
@@ -44,3 +41,18 @@ void bifit_load_class(const uint8_t *data, bifit_class_t *out) {
     LOG_DEBUG("\n");
 }
 
+bifit_class_t *bifit_load_embedded_classes() {
+
+    unsigned int number_of_classes = bifit_embedded_class_files_size;
+
+    bifit_class_t *classes = malloc(sizeof(struct bifit_class) * number_of_classes);
+
+    for (int i = 0; i < number_of_classes; i++) {
+        uint8_t *class_file = bifit_embedded_class_files[i];
+        bifit_load_class(class_file, &classes[i]);
+    }
+
+    return classes;
+}
+
+#endif

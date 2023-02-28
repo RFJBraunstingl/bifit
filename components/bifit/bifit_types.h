@@ -1,9 +1,9 @@
-#include <stdio.h>
 #define LOG_DEBUG printf
 
 #ifndef BIFIT_TYPES_H_
 #define BIFIT_TYPES_H_
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 

@@ -1,3 +1,3 @@
-idf_component_register(SRCS "bifit.c"
+idf_component_register(SRCS ""
         INCLUDE_DIRS "include"
-        REQUIRES load_class)
+        REQUIRES classes_combined)
