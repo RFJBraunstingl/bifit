@@ -1,7 +1,7 @@
 #ifndef BIFIT_INTERPRETER_H_
 #define BIFIT_INTERPRETER_H_
 
-#include "instructions/4c_astore1.h"
+#include "instructions/4b-4e_astore_n.h"
 #include "instructions/59_dup.h"
 #include "instructions/b7_invokespecial.h"
 #include "instructions/bb_new.h"
@@ -24,8 +24,20 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
         switch (code[pc]) {
 
+            case 0x4b:
+                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 0);
+                break;
+
             case 0x4c:
-                pc = bifit_execute_instruction_astore1(pc, stack_frame);
+                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 1);
+                break;
+
+            case 0x4d:
+                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 2);
+                break;
+
+            case 0x4e:
+                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 3);
                 break;
 
             case 0x59:
