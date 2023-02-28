@@ -73,8 +73,8 @@ classfile_pointer bifit_embedded_class_files[] = {")
     endforeach ()
 
     set(output_combined "
-\n};\n
-unsigned int bifit_embedded_class_files_size = ${counter};
+}\;
+unsigned int bifit_embedded_class_files_size = ${counter}\;
 #endif // BIFIT_CLASSES_COMBINED_H_
 ")
 
