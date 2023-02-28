@@ -23,22 +23,27 @@ typedef struct bifit_operand_stack {
 
 } bifit_operand_stack_t;
 
-typedef struct bifit_context {
-
-    bifit_class_t *class_list;
-    unsigned int class_list_size;
-
-} bifit_context_t;
-
 typedef struct bifit_stack_frame {
 
     bifit_class_t *current_class;
     bifit_method_t *current_method;
     bifit_local_variable_t *local_variable_head;
     bifit_operand_stack_t operand_stack;
-    bifit_context_t *bifit_context;
+
+    struct bifit_stack_frame *next_frame;
+    struct bifit_stack_frame *prev_frame;
 
 } bifit_stack_frame_t;
+
+typedef struct bifit_context {
+
+    bifit_class_t *class_list;
+    unsigned int class_list_size;
+
+    // point to the top of the frame stack
+    bifit_stack_frame_t *stack_frame;
+
+} bifit_context_t;
 
 typedef struct bifit_object {
 

@@ -1,4 +1,4 @@
-#include "../bifit_interpreter_common.h"
+#include "../common/bifit_interpreter_common.h"
 
 bool bifit_execute_instruction_invokespecial_should_call_superclass() {
     /*
@@ -10,10 +10,10 @@ bool bifit_execute_instruction_invokespecial_should_call_superclass() {
     return false; // TODO
 }
 
-unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *stack_frame) {
+unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_context_t *context) {
     LOG_DEBUG("invoke instance method\n");
 
-    const uint8_t *code = stack_frame->current_method->code.byte_code;
+    const uint8_t *code = context->stack_frame->current_method->code.byte_code;
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
 
     /* i.e.:
@@ -50,24 +50,24 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
      */
 
     bifit_constant_pool_entry_t method_reference_entry =
-            stack_frame->current_class->constant_pool.entries[const_pool_index - 1];
+            context->stack_frame->current_class->constant_pool.entries[const_pool_index - 1];
     bifit_constant_pool_entry_t class_reference_entry =
-            stack_frame->current_class->constant_pool.entries[method_reference_entry.class_index - 1];
+            context->stack_frame->current_class->constant_pool.entries[method_reference_entry.class_index - 1];
 
     bifit_identifier_t class_identifier;
     bifit_load_identifier_by_name_index(
             class_reference_entry.name_index,
-            stack_frame->current_class->constant_pool.entries,
+            context->stack_frame->current_class->constant_pool.entries,
             &class_identifier
     );
 
     bifit_constant_pool_entry_t name_and_type_entry =
-            stack_frame->current_class->constant_pool.entries[method_reference_entry.name_and_type_index - 1];
+            context->stack_frame->current_class->constant_pool.entries[method_reference_entry.name_and_type_index - 1];
 
     bifit_identifier_t method_identifier;
     bifit_load_identifier_by_name_index(
             name_and_type_entry.name_index,
-            stack_frame->current_class->constant_pool.entries,
+            context->stack_frame->current_class->constant_pool.entries,
             &method_identifier
     );
 
@@ -82,11 +82,11 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
     }
 
     bifit_class_t *bifit_class = bifit_find_class_by_identifier(
-            stack_frame->bifit_context,
+            context,
             &class_identifier
     );
 
-    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(stack_frame->bifit_context);
+    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context);
     invoked_stack_frame->current_class = bifit_class;
     for (int i = 0; i < bifit_class->methods.method_count; ++i) {
         if (!bifit_identifier_matches_identifier(
@@ -100,7 +100,7 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stac
     }
 
     // pop object ref and pass it as local var #0
-    bifit_operand_stack_element_t *object_ref_element = bifit_operand_stack_pop(&(stack_frame->operand_stack));
+    bifit_operand_stack_element_t *object_ref_element = bifit_operand_stack_pop(&(context->stack_frame->operand_stack));
 
     // push local var
     // invoked_stack_frame->local_variable_head

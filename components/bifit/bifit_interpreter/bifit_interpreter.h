@@ -5,12 +5,19 @@
 #include "instructions/invokespecial.h"
 #include "instructions/new.h"
 
-void bifit_execute_main_frame(bifit_stack_frame_t *main_frame) {
+void bifit_execute_stack_frame_in_context(bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_main_frame\n");
-    bifit_method_code_t method_code = main_frame->current_method->code;
+
+    LOG_DEBUG("pushing frame onto stack\n");
+    stack_frame->prev_frame = context->stack_frame;
+    context->stack_frame->next_frame = stack_frame;
+    context->stack_frame = stack_frame;
+
+    LOG_DEBUG("gather method\n");
+    bifit_method_code_t method_code = stack_frame->current_method->code;
 
     LOG_DEBUG("main_frame got method ");
-    bifit_log_bifit_identifier(&main_frame->current_method->name);
+    bifit_log_bifit_identifier(&stack_frame->current_method->name);
     LOG_DEBUG("\n");
 
     const uint8_t *code = method_code.byte_code;
@@ -20,15 +27,15 @@ void bifit_execute_main_frame(bifit_stack_frame_t *main_frame) {
         switch (code[pc]) {
 
             case 0x59:
-                pc = bifit_execute_instruction_dup(pc, main_frame);
+                pc = bifit_execute_instruction_dup(pc, context);
                 break;
 
             case 0xb7:
-                pc = bifit_execute_instruction_invokespecial(pc, main_frame);
+                pc = bifit_execute_instruction_invokespecial(pc, context);
                 break;
 
             case 0xbb:
-                pc = bifit_execute_instruction_new(pc, main_frame);
+                pc = bifit_execute_instruction_new(pc, context);
                 break;
 
             default:
