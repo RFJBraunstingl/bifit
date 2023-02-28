@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "string.h"
 
-#include "../load_class/load_class.h"
+#include "../bifit_classloader/load_class.h"
 
 bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *string) {
     LOG_DEBUG("identifier_matches_string checking identifier ");
@@ -46,6 +46,43 @@ void bifit_run() {
         exit(1);
     }
     LOG_DEBUG("main class found: %s\n", bifit_main_class_identifier);
+
+    // bifit_execute_main_method_for_class();
+    unsigned int main_class_method_count = main_class->methods.method_count;
+    bifit_method_t *main_class_methods = main_class->methods.method_array;
+    bifit_method_t *main_method_of_class;
+    for (int i = 0; i < main_class_method_count; ++i) {
+
+        bifit_method_t current_method = main_class_methods[i];
+
+        // main method has to be public
+        if (!current_method.access_flags.is_public) {
+            LOG_DEBUG("found method ");
+            bifit_log_bifit_identifier(&current_method.name);
+            LOG_DEBUG(" which is not public!\n");
+            continue;
+        }
+
+        // main method has to be static
+        if (!current_method.access_flags.is_static) {
+            LOG_DEBUG("found method ");
+            bifit_log_bifit_identifier(&current_method.name);
+            LOG_DEBUG(" which is not static!\n");
+            continue;
+        }
+
+        // main method has to be called "main"
+        if (!bifit_identifier_matches_string(&current_method.name, "main")) {
+            LOG_DEBUG("found method ");
+            bifit_log_bifit_identifier(&current_method.name);
+            LOG_DEBUG(" which is not called 'main'!\n");
+            continue;
+        }
+
+        // main method found
+        LOG_DEBUG("main method found...starting execution\n");
+        main_method_of_class = &current_method;
+    }
 }
 
 #endif

@@ -13,6 +13,8 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+#define DEPLOY_TO_ESP
+
 #include "bifit.h"
 
 void app_main(void)

@@ -3,7 +3,7 @@
 
 #include "../bifit_types.h"
 
-#ifndef RUN_LOCAL
+#ifdef DEPLOY_TO_ESP
 #include "classes_combined.h"
 #else
 #include "../../classes_combined/include/classes_combined.h"
