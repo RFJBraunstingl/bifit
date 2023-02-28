@@ -1,31 +1,10 @@
-#ifndef BIFIT_COMMON_TYPES_H_
-#define BIFIT_COMMON_TYPES_H_
+#ifndef BIFIT_COMMON_TYPES_CLASS_H_
+#define BIFIT_COMMON_TYPES_CLASS_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "generic_types.h"
+
 #include <stdbool.h>
 
-/**
- * generic types
- */
-typedef struct bifit_identifier {
-
-    const uint8_t *identifier;
-    unsigned int identifier_length;
-
-} bifit_identifier_t;
-
-typedef struct bifit_attribute {
-
-    bifit_identifier_t name;
-    unsigned int length_in_bytes;
-    const uint8_t *data;
-
-} bifit_attribute_t;
-
-/**
- * actual class types
- */
 typedef struct bifit_class_header {
 
     unsigned int major_version;
@@ -186,25 +165,5 @@ typedef struct bifit_class {
     bifit_methods_t methods;
 
 } bifit_class_t;
-
-typedef struct bifit_context {
-
-    bifit_class_t *class_list;
-
-} bifit_context_t;
-
-typedef struct bifit_local_variable {
-
-    struct bifit_local_variable *next;
-
-} bifit_local_variable_t;
-
-typedef struct bifit_stack_frame {
-
-    bifit_class_t *current_class;
-    bifit_method_t *current_method;
-    bifit_local_variable_t *local_variable_head;
-
-} bifit_stack_frame_t;
 
 #endif

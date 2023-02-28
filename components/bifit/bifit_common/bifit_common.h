@@ -4,7 +4,7 @@
 #ifndef BIFIT_COMMON_H_
 #define BIFIT_COMMON_H_
 
-#include "bifit_types.h"
+#include "types/bifit_types.h"
 
 #include <string.h>
 
