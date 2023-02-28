@@ -13,8 +13,5 @@ void bifit_load_class_identifier(unsigned int index, const uint8_t *data, bifit_
     bifit_constant_pool_entry_t this_class_entry = entries[this_entry.name_index - 1];
     out->identifier = this_class_entry.utf8_str;
     out->identifier_length = this_class_entry.utf8_str_len;
-
-    LOG_DEBUG("result of load_class_identifier was: ");
-    bifit_log_bifit_identifier(out);
-    LOG_DEBUG("\n\n");
+    LOG_DEBUG("\n");
 }

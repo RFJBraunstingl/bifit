@@ -118,7 +118,6 @@ function(ClassFileGenerate file generated_c)
 #ifndef ${c_name}_H
 #define ${c_name}_H
 #include \"stdint.h\"
-#include \"${c_name}.h\"
 uint8_t ${c_name}_data[] = {
     ${output_c}
 }\;
