@@ -21,6 +21,8 @@ bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, char *identif
 
 void bifit_find_main_method_in_class(bifit_class_t *clazz, bifit_stack_frame_t *out) {
     LOG_DEBUG("scanning for main method...\n");
+    out->current_class = clazz;
+
     unsigned int main_class_method_count = clazz->methods.method_count;
     bifit_method_t *main_class_methods = clazz->methods.method_array;
 

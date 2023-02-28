@@ -1,7 +1,7 @@
 #ifndef BIFIT_LOAD_CLASS_H_
 #define BIFIT_LOAD_CLASS_H_
 
-#include "../bifit_common.h"
+#include "../bifit_common/bifit_common.h"
 
 #ifdef DEPLOY_TO_ESP
 #include "classes_combined.h"

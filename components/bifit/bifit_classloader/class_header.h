@@ -1,7 +1,7 @@
 #ifndef BIFIT_LOAD_CLASS_HEADER_H_
 #define BIFIT_LOAD_CLASS_HEADER_H_
 
-#include "../bifit_common.h"
+#include "../bifit_common/bifit_common.h"
 #include "load_class_utils.h"
 
 #define BIFIT_MINOR_VERSION_BYTE_OFFSET 4

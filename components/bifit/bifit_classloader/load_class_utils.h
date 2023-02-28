@@ -3,30 +3,6 @@
 
 #include <stdlib.h>
 
-unsigned int bifit_parse_integer_u2(unsigned int index, const uint8_t data[]) {
-    unsigned int result = data[index];
-    result  = result << 8;
-
-    result += data[index + 1];
-
-    return result;
-}
-
-unsigned int bifit_parse_integer_u4(unsigned int index, const uint8_t data[]) {
-    unsigned int result = data[index++];
-    result = result << 8;
-
-    result += data[index++];
-    result = result << 8;
-
-    result += data[index++];
-    result = result << 8;
-
-    result += data[index];
-
-    return result;
-}
-
 /*
 attribute_info {
     u2 attribute_name_index;
