@@ -1,4 +1,4 @@
-#include "../bifit_common/bifit_common.h"
+#include "bifit_interpreter_common.h"
 
 unsigned int bifit_execute_instruction_bb(unsigned int pc, bifit_stack_frame_t *stack_frame) {
     LOG_DEBUG("create new object\n");
@@ -43,7 +43,15 @@ unsigned int bifit_execute_instruction_bb(unsigned int pc, bifit_stack_frame_t *
         LOG_ERROR("\n");
     }
 
-    // ...
+    LOG_DEBUG("create new object reference for class\n");
+    bifit_object_t *new_object = bifit_create_object();
+    new_object->object_class = bifit_class;
+
+    LOG_DEBUG("push reference onto operand stack\n");
+    bifit_push_reference_onto_operand_stack(
+            &(new_object->reference),
+            &(stack_frame->operand_stack)
+    );
 
     return ++pc;
 }

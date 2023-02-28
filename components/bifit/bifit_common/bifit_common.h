@@ -119,4 +119,13 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
     return NULL;
 }
 
+bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context) {
+    bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));
+
+    new_stack_frame->bifit_context = context;
+    new_stack_frame->operand_stack.top = NULL;
+
+    return new_stack_frame;
+}
+
 #endif

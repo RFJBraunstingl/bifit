@@ -18,4 +18,10 @@ typedef struct bifit_attribute {
 
 } bifit_attribute_t;
 
+typedef struct bifit_object_reference {
+
+    unsigned int id;
+
+} bifit_object_reference_t;
+
 #endif

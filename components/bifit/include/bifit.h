@@ -72,8 +72,7 @@ void bifit_run() {
     LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
     // construct main frame
-    bifit_stack_frame_t *main_frame = malloc(sizeof(struct bifit_stack_frame));
-    main_frame->bifit_context = context;
+    bifit_stack_frame_t *main_frame = bifit_allocate_stack_frame(context);
     bifit_find_main_method_in_class(main_class, main_frame);
 
     LOG_DEBUG("main method found!\n\n");
