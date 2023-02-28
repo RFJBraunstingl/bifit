@@ -6,6 +6,7 @@
 
 #include "types/bifit_types.h"
 
+#include <stdio.h>
 #include <string.h>
 
 unsigned int bifit_parse_integer_u2(unsigned int index, const uint8_t data[]) {
@@ -101,14 +102,17 @@ bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identif
     return true;
 }
 
-bifit_class_t *bifit_find_class_by_identifier(bifit_class_t *class_list, unsigned int class_list_size,
-                                              bifit_identifier_t *identifier) {
-    for (int i = 0; i < class_list_size; ++i) {
+bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_identifier_t *identifier) {
+    LOG_DEBUG("bifit_find_class_by_identifier ");
+    bifit_log_bifit_identifier(identifier);
+    LOG_DEBUG("\n");
+
+    for (int i = 0; i < context->class_list_size; ++i) {
         if (bifit_identifier_matches_identifier(
-                &(class_list[i].this_class),
+                &(context->class_list[i].this_class),
                 identifier)) {
 
-            return &class_list[i];
+            return &context->class_list[i];
         }
     }
 

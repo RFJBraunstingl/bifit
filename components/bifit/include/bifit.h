@@ -57,6 +57,8 @@ void bifit_run() {
 
     bifit_class_t *class_list = bifit_load_embedded_classes();
     LOG_DEBUG("classes loaded!\n");
+    bifit_context_t *context = malloc(sizeof(struct bifit_context));
+    context->class_list = class_list;
 
     bifit_class_t *main_class = bifit_find_class_by_name(
             class_list,
@@ -69,7 +71,9 @@ void bifit_run() {
     }
     LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
+    // construct main frame
     bifit_stack_frame_t *main_frame = malloc(sizeof(struct bifit_stack_frame));
+    main_frame->bifit_context = context;
     bifit_find_main_method_in_class(main_class, main_frame);
 
     LOG_DEBUG("main method found!\n\n");
