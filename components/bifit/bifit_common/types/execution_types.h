@@ -3,11 +3,19 @@
 
 #include "class_types.h"
 
-typedef struct bifit_local_variable {
+typedef struct bifit_local_variable_stack_element {
 
-    struct bifit_local_variable *next;
+    bifit_object_reference_t *object_reference;
+    struct bifit_local_variable_stack_element *next;
+    struct bifit_local_variable_stack_element *prev;
 
-} bifit_local_variable_t;
+} bifit_local_variable_stack_element_t;
+
+typedef struct bifit_local_variable_stack {
+
+    bifit_local_variable_stack_element_t *top;
+
+} bifit_local_variable_stack_t;
 
 typedef struct bifit_operand_stack_element {
 
@@ -27,7 +35,7 @@ typedef struct bifit_stack_frame {
 
     bifit_class_t *current_class;
     bifit_method_t *current_method;
-    bifit_local_variable_t *local_variable_head;
+    bifit_local_variable_stack_t local_variable_stack;
     bifit_operand_stack_t operand_stack;
 
     struct bifit_stack_frame *next_frame;

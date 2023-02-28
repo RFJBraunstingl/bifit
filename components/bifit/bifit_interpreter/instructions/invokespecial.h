@@ -100,9 +100,12 @@ unsigned int bifit_execute_instruction_invokespecial(unsigned int pc, bifit_cont
     }
 
     // pop object ref and pass it as local var #0
-    bifit_operand_stack_element_t *object_ref_element = bifit_operand_stack_pop(&(context->stack_frame->operand_stack));
+    bifit_operand_stack_element_t *object_ref_element =
+            bifit_operand_stack_pop(&(context->stack_frame->operand_stack));
 
     // push local var
+    bifit_object_reference_t *obj_ref = object_ref_element->object_reference;
+    invoked_stack_frame->local_variable_stack
     // invoked_stack_frame->local_variable_head
     // free stack element
 

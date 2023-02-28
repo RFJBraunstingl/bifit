@@ -5,13 +5,8 @@
 #include "instructions/invokespecial.h"
 #include "instructions/new.h"
 
-void bifit_execute_stack_frame_in_context(bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+void bifit_execute_current_stack_frame_in_context(bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_main_frame\n");
-
-    LOG_DEBUG("pushing frame onto stack\n");
-    stack_frame->prev_frame = context->stack_frame;
-    context->stack_frame->next_frame = stack_frame;
-    context->stack_frame = stack_frame;
 
     LOG_DEBUG("gather method\n");
     bifit_method_code_t method_code = stack_frame->current_method->code;
