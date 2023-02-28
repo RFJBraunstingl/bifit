@@ -1,9 +1,9 @@
 #ifndef BIFIT_INTERPRETER_H_
 #define BIFIT_INTERPRETER_H_
 
-#include "instructions/dup.h"
-#include "instructions/invokespecial.h"
-#include "instructions/new.h"
+#include "instructions/59_dup.h"
+#include "instructions/b7_invokespecial.h"
+#include "instructions/bb_new.h"
 
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_main_frame\n");
