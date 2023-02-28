@@ -2,7 +2,12 @@
 #define BIFIT_LOAD_CLASS_H_
 
 #include "../bifit_types.h"
+
+#ifndef RUN_LOCAL
 #include "classes_combined.h"
+#else
+#include "../../classes_combined/include/classes_combined.h"
+#endif
 
 #include "class_header.h"
 #include "constant_pool.h"
