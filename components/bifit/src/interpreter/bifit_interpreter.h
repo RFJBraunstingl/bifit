@@ -61,6 +61,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
                 pc = bifit_execute_instruction_dup(pc, stack_frame);
                 break;
 
+            case 0xb1:
+                LOG_DEBUG("return\n");
+                return;
+
             case 0xb7:
                 pc = bifit_execute_instruction_invokespecial(pc, stack_frame, context);
                 break;
