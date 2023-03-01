@@ -84,7 +84,9 @@ bifit_class_t *bifit_find_class_by_name(bifit_context_t *context, char *identifi
         }
     }
 
-    return NULL;
+    LOG_ERROR("class not found error: %s\n", identifier);
+
+    exit(1);
 }
 
 bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identifier_t *right) {

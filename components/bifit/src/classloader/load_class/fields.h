@@ -1,4 +1,4 @@
-#include "../common/bifit_common.h"
+#include "../../common/bifit_common.h"
 #include "load_class_utils.h"
 
 unsigned int bifit_load_next_field(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_field_t *out);

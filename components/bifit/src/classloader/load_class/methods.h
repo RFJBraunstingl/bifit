@@ -1,7 +1,7 @@
 #ifndef BIFIT_LOAD_CLASS_METHODS_H_
 #define BIFIT_LOAD_CLASS_METHODS_H_
 
-#include "../common/bifit_common.h"
+#include "../../common/bifit_common.h"
 #include "load_class_utils.h"
 
 unsigned int bifit_load_method(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t entries[], bifit_method_t *out);

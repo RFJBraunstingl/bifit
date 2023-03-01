@@ -69,10 +69,7 @@ void bifit_run() {
             context,
             bifit_main_class_identifier
     );
-    if (main_class == NULL) {
-        printf("ERROR: main class %s not found in loaded class_list!\n", bifit_main_class_identifier);
-        exit(1);
-    }
+
     LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
     // construct main frame
