@@ -10,11 +10,6 @@
 #include "../../../classes_combined/include/classes_combined.h"
 #endif
 
-void bifit_load_system_classes(bifit_context_t *context) {
-
-}
-
-
 void bifit_load_embedded_classes(bifit_context_t *context) {
 
     unsigned int number_of_classes = bifit_embedded_class_files_size;
@@ -28,11 +23,6 @@ void bifit_load_embedded_classes(bifit_context_t *context) {
 
     context->class_list = classes;
     context->class_list_size = number_of_classes;
-}
-
-void bifit_load_all_classes(bifit_context_t *context) {
-    bifit_load_system_classes(context);
-    bifit_load_embedded_classes(context);
 }
 
 #endif

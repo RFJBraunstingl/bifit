@@ -1,12 +1,14 @@
 #include "../common/bifit_interpreter_common.h"
 
-unsigned int bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+unsigned int
+bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
     LOG_DEBUG("create new object\n");
     const uint8_t *code = stack_frame->current_method->code.byte_code;
 
     // consume next 2 instructions as index to constant pool
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
     LOG_DEBUG("const_pool_index: %d\n", const_pool_index);
+    ++pc;
 
     /* i.e.:
      * const_pool_index == 2
@@ -49,5 +51,5 @@ unsigned int bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t 
             &(stack_frame->operand_stack)
     );
 
-    return ++pc;
+    return pc;
 }

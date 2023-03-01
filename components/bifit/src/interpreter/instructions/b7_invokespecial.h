@@ -16,6 +16,7 @@ bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *st
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
+    ++pc;
 
     /* i.e.:
      * const_pool_index == 3
@@ -72,6 +73,13 @@ bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *st
             &method_identifier
     );
 
+    if (bifit_identifier_matches_string(&class_identifier, "java/lang/Object") &&
+        bifit_identifier_matches_string(&method_identifier, "<init>")) {
+
+        LOG_DEBUG("special case: constructor of java/lang/Object is no-op\n");
+        return pc;
+    }
+
     LOG_DEBUG("invokespecial - should invoke ");
     bifit_log_bifit_identifier(&class_identifier);
     LOG_DEBUG(".");
@@ -114,5 +122,5 @@ bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *st
     // free popped operand stack element
     free(top_operand_element);
 
-    return ++pc;
+    return pc;
 }
