@@ -1,12 +1,12 @@
 #ifndef BIFIT_LOAD_CLASS_H_
 #define BIFIT_LOAD_CLASS_H_
 
-#include "../bifit_common/bifit_common.h"
+#include "../common/bifit_common.h"
 
 #ifdef DEPLOY_TO_ESP
 #include "classes_combined.h"
 #else
-#include "../../classes_combined/include/classes_combined.h"
+#include "../../../classes_combined/include/classes_combined.h"
 #endif
 
 #include "class_header.h"

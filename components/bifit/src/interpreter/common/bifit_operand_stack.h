@@ -1,7 +1,7 @@
 #ifndef BIFIT_INTERPRETER_COMMON_OPERAND_STACK_H_
 #define BIFIT_INTERPRETER_COMMON_OPERAND_STACK_H_
 
-#include "../../bifit_common/bifit_common.h"
+#include "../../common/bifit_common.h"
 
 bifit_stack_element_t *bifit_operand_stack_create_element(bifit_object_reference_t *reference) {
 

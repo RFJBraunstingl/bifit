@@ -6,8 +6,8 @@
 #include <stdbool.h>
 #include "string.h"
 
-#include "../bifit_classloader/bifit_classloader.h"
-#include "../bifit_interpreter/bifit_interpreter.h"
+#include "../src/classloader/bifit_classloader.h"
+#include "../src/interpreter/bifit_interpreter.h"
 
 bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
     LOG_DEBUG("scanning for main method...\n");

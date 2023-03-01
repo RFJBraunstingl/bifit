@@ -1,4 +1,4 @@
-#include "../bifit_common/bifit_common.h"
+#include "../common/bifit_common.h"
 
 unsigned int bifit_load_next_constant_pool_entry(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t *out);
 unsigned int bifit_load_next_utf8(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t *out);

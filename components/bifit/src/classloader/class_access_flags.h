@@ -1,4 +1,4 @@
-#include "../bifit_common/bifit_common.h"
+#include "../common/bifit_common.h"
 
 #define BIFIT_CLASS_ACCESS_FLAGS_SIZE_IN_BYTES 2
 
