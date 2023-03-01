@@ -2,6 +2,6 @@
 
 #include "../components/bifit/include/bifit.h"
 
-int test_main() {
+int main() {
     bifit_run();
 }

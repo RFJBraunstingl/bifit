@@ -10,8 +10,6 @@
 #include "../../../classes_combined/include/classes_combined.h"
 #endif
 
-
-
 void bifit_load_system_classes(bifit_context_t *context) {
 
 }
