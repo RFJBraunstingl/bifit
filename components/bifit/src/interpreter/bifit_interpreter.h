@@ -4,6 +4,7 @@
 #include "instructions/2a-2d_aload_n.h"
 #include "instructions/4b-4e_astore_n.h"
 #include "instructions/59_dup.h"
+#include "instructions/b2_getstatic.h"
 #include "instructions/b7_invokespecial.h"
 #include "instructions/bb_new.h"
 
@@ -64,6 +65,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
             case 0xb1:
                 LOG_DEBUG("return\n");
                 return;
+
+            case 0xb2:
+                pc = bifit_execute_instruction_getstatic(pc, stack_frame, context);
+                break;
 
             case 0xb7:
                 pc = bifit_execute_instruction_invokespecial(pc, stack_frame, context);

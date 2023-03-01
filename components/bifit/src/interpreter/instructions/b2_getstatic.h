@@ -1,6 +1,6 @@
 #include "../common/bifit_interpreter_common.h"
 
-unsigned int bifit_execute_instruction_(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+unsigned int bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
     LOG_DEBUG("Get static field from class\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
@@ -39,6 +39,8 @@ unsigned int bifit_execute_instruction_(unsigned int pc, bifit_stack_frame_t *st
      * length was 21
      * attempt to print utf8 as ascii: Ljava/io/PrintStream;
      */
+
+    not implemented...
 
     return ++pc;
 }
