@@ -64,6 +64,7 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
             case 0xb1:
                 LOG_DEBUG("return\n");
+                // TODO: ??? bifit_stack_pop(&(context->frame_stack)); ???
                 return;
 
             case 0xb2:
