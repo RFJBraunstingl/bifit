@@ -73,14 +73,14 @@ bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *strin
     return true;
 }
 
-bifit_class_t *bifit_find_class_by_name(bifit_class_t *class_list, unsigned int class_list_size, char *identifier) {
-    for (int i = 0; i < class_list_size; ++i) {
+bifit_class_t *bifit_find_class_by_name(bifit_context_t *context, char *identifier) {
+    for (int i = 0; i < context->class_list_size; ++i) {
         if (bifit_identifier_matches_string(
-                &(class_list[i].this_class),
+                &(context->class_list[i].this_class),
                 identifier
         )) {
 
-            return &class_list[i];
+            return &(context->class_list[i]);
         }
     }
 

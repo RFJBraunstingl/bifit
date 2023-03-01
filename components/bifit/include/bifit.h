@@ -51,16 +51,22 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
     exit(1);
 }
 
+bifit_context_t *bifit_initialize_context() {
+    bifit_context_t *ctx = malloc(sizeof(struct bifit_context));
+
+    ctx->class_list_size = 0;
+
+    return ctx;
+}
+
 void bifit_run() {
 
-    bifit_class_t *class_list = bifit_load_embedded_classes();
+    bifit_context_t *context = bifit_initialize_context();
+    bifit_load_embedded_classes(context);
     LOG_DEBUG("classes loaded!\n");
-    bifit_context_t *context = malloc(sizeof(struct bifit_context));
-    context->class_list = class_list;
 
     bifit_class_t *main_class = bifit_find_class_by_name(
-            class_list,
-            bifit_embedded_class_files_size,
+            context,
             bifit_main_class_identifier
     );
     if (main_class == NULL) {

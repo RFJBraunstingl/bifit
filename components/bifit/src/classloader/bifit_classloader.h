@@ -46,7 +46,7 @@ void bifit_load_class(const uint8_t *data, bifit_class_t *out) {
     LOG_DEBUG("\n");
 }
 
-bifit_class_t *bifit_load_embedded_classes() {
+void bifit_load_embedded_classes(bifit_context_t *context) {
 
     unsigned int number_of_classes = bifit_embedded_class_files_size;
 
@@ -57,7 +57,8 @@ bifit_class_t *bifit_load_embedded_classes() {
         bifit_load_class(class_file, &classes[i]);
     }
 
-    return classes;
+    context->class_list = classes;
+    context->class_list_size = number_of_classes;
 }
 
 #endif
