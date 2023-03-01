@@ -8,3 +8,4 @@ sdkconfig.*
 components/classes_combined/**/*.h
 
 test/main
+
