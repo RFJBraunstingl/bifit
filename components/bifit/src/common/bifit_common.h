@@ -55,6 +55,11 @@ void bifit_log_bifit_identifier(bifit_identifier_t *identifier) {
     bifit_log_identifier_with_length(identifier->identifier, identifier->identifier_length);
 }
 
+void bifit_copy_identifier(bifit_identifier_t *src, bifit_identifier_t *out) {
+    out->identifier_length = src->identifier_length;
+    out->identifier = src->identifier;
+}
+
 bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *string) {
     LOG_DEBUG("identifier_matches_string checking identifier ");
     bifit_log_bifit_identifier(identifier);
@@ -85,7 +90,6 @@ bifit_class_t *bifit_find_class_by_name(bifit_context_t *context, char *identifi
     }
 
     LOG_ERROR("class not found error: %s\n", identifier);
-
     exit(1);
 }
 
@@ -108,20 +112,46 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
     bifit_log_bifit_identifier(identifier);
     LOG_DEBUG("\n");
 
-    for (int i = 0; i < context->class_list_size; ++i) {
-        if (bifit_identifier_matches_identifier(
-                &(context->class_list[i].this_class),
-                identifier)) {
+    bifit_identifier_t *lookup_identifier = identifier;
 
-            return &context->class_list[i];
+    // prefix 'java/' is ignored
+    // (thus we can inject our own system classes)
+    if (identifier->identifier_length > 5 &&
+        'j' == identifier->identifier[0] &&
+        'a' == identifier->identifier[1] &&
+        'v' == identifier->identifier[2] &&
+        'a' == identifier->identifier[3] &&
+        '/' == identifier->identifier[4]) {
+
+        LOG_DEBUG("find class special case - java/ prefix is ignored!\n");
+        bifit_identifier_t *temp = malloc(sizeof(struct bifit_identifier));
+        bifit_copy_identifier(identifier, temp);
+
+        temp->identifier = &temp->identifier[5];
+        temp->identifier_length -= 5;
+
+        bifit_class_t *result = bifit_find_class_by_identifier(context, temp);
+        free(temp);
+
+        return result;
+
+    } else {
+
+        for (int i = 0; i < context->class_list_size; ++i) {
+            if (bifit_identifier_matches_identifier(
+                    &(context->class_list[i].this_class),
+                    lookup_identifier)) {
+
+                return &context->class_list[i];
+            }
         }
+
+        LOG_ERROR("class not found error: ");
+        bifit_log_bifit_identifier(identifier);
+        LOG_ERROR("\n");
+
+        exit(1);
     }
-
-    LOG_ERROR("class not found error: ");
-    bifit_log_bifit_identifier(identifier);
-    LOG_ERROR("\n");
-
-    exit(1);
 }
 
 #endif

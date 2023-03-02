@@ -40,7 +40,7 @@ unsigned int bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_fr
      * attempt to print utf8 as ascii: Ljava/io/PrintStream;
      */
 
-    not implemented...
+    // not implemented...
 
     return ++pc;
 }
