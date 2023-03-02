@@ -15,6 +15,10 @@ execute_process(
 message("gradle process executed - output was:")
 message("${outVar}")
 file(
+        REMOVE_RECURSE
+        "${PROJECT_SOURCE_DIR}/jar/java"
+)
+file(
         RENAME
         "${PROJECT_SOURCE_DIR}/system/build/classes/java/main"
         "${PROJECT_SOURCE_DIR}/jar/java"
