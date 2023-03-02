@@ -1,6 +1,8 @@
 package lang;
 
+import io.PrintStream;
+
 public class System {
 
-    public static String out;
+    public static PrintStream out;
 }
