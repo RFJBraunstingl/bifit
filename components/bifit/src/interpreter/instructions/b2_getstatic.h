@@ -91,7 +91,7 @@ bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_
             }
 
             // push the field found on the operand stack
-            current_field->
+            // current_field->
         }
     }
 

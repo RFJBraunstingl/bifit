@@ -13,10 +13,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     bifit_stack_element_t *top_frame_stack_element = bifit_stack_peek(&(context->frame_stack));
     bifit_stack_frame_t *stack_frame = top_frame_stack_element->data;
 
-    LOG_DEBUG("gather method\n");
+    LOG_DEBUG("loading code\n");
     bifit_method_code_t method_code = stack_frame->current_method->code;
 
-    LOG_DEBUG("main_frame got method ");
+    LOG_DEBUG("executing method ");
     bifit_log_bifit_identifier(&(stack_frame->current_method->name));
     LOG_DEBUG("\n");
 

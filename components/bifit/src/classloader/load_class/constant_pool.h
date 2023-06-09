@@ -22,7 +22,7 @@ void bifit_load_constant_pool(const uint8_t data[], bifit_constant_pool_t *out) 
 
     unsigned int const_pool_size = bifit_parse_integer_u2(BIFIT_CONSTANT_POOL_START_INDEX, data);
     unsigned int number_of_entries = const_pool_size - 1;
-    LOG_DEBUG("dealing with a constant pool of size %d\n", number_of_entries);
+    LOG_DEBUG("\nstart to parse constant pool of size %d\n", number_of_entries);
 
     out->entries = malloc(
             sizeof(struct bifit_constant_pool_entry) * number_of_entries

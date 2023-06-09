@@ -10,7 +10,7 @@ bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame,
     LOG_DEBUG("const_pool_index: %d\n", const_pool_index);
     ++pc;
 
-    /* i.e.:
+    /*
      * const_pool_index == 2
      * ---
      * reading constant pool entry 2

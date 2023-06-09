@@ -19,7 +19,7 @@ void bifit_load_class_header(const uint8_t data[], bifit_class_header_t *out) {
     LOG_DEBUG("load_class_header major_version: %d\n", out->major_version);
     // guess java version
     out->java_version = out->major_version - BIFIT_JAVA_MAJOR_VERSION_OFFSET;
-    LOG_DEBUG("load_class_header java_version: %d\n", out->java_version);
+    LOG_DEBUG("guessing java_version: %d\n", out->java_version);
 }
 
 #endif

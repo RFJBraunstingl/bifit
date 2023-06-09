@@ -43,7 +43,6 @@ void bifit_load_identifier_by_name_index(unsigned int name_index, bifit_constant
     // NOTE: indexing in constant pool starts with 1!
     bifit_constant_pool_entry_t identifier_entry = entries[name_index - 1];
 
-    // TODO: check if actually utf8 constant?
     (out->identifier) = identifier_entry.utf8_str;
     (out->identifier_length) = identifier_entry.utf8_str_len;
 }

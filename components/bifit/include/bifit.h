@@ -10,7 +10,7 @@
 #include "../src/interpreter/bifit_interpreter.h"
 
 bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
-    LOG_DEBUG("scanning for main method...\n");
+    LOG_DEBUG("scanning for a (public static) main method...\n");
 
     unsigned int main_class_method_count = clazz->methods.method_count;
     bifit_method_t *main_class_methods = clazz->methods.method_array;
@@ -43,6 +43,7 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
             continue;
         }
 
+        LOG_DEBUG("will use method with index %d as main\n\n", i);
         // main method found
         return &clazz->methods.method_array[i];
     }
