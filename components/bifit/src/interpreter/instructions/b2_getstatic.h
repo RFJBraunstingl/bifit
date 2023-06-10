@@ -78,7 +78,7 @@ bifit_execute_instruction_getstatic(
     LOG_DEBUG("\n");
 
     /* check if the static field is already resolved */
-    bifit_object_reference_t *reference = bifit_get_resolved_reference(
+    bifit_object_reference_t *reference = bifit_resolved_static_reference_get(
             context,
             &class_identifier,
             &field_identifier

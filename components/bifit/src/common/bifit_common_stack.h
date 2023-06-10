@@ -1,8 +1,8 @@
 #ifndef BIFIT_COMMON_STACK_H_
 #define BIFIT_COMMON_STACK_H_
 
-#include "../types/bifit_types.h"
-#include "../bifit_defs.h"
+#include "types/bifit_types.h"
+#include "bifit_common_base.h"
 #include <stdlib.h>
 
 typedef struct bifit_stack_element {

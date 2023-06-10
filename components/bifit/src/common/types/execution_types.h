@@ -1,7 +1,7 @@
 #ifndef BIFIT_COMMON_TYPES_EXECUTION_H_
 #define BIFIT_COMMON_TYPES_EXECUTION_H_
 
-#include "../stack/bifit_common_stack.h"
+#include "../bifit_common_stack.h"
 #include "class_types.h"
 
 typedef struct bifit_local_variable {
