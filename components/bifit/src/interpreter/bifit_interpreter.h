@@ -5,6 +5,7 @@
 #include "instructions/2a-2d_aload_n.h"
 #include "instructions/4b-4e_astore_n.h"
 #include "instructions/59_dup.h"
+#include "instructions/b0_areturn.h"
 #include "instructions/b2_getstatic.h"
 #include "instructions/b6_invokevirtual.h"
 #include "instructions/b7_invokespecial.h"
@@ -66,6 +67,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
             case 0x59:
                 pc = bifit_execute_instruction_dup(pc, stack_frame);
+                break;
+
+            case 0xb0:
+                pc = bifit_execute_instruction_areturn(pc, stack_frame, context);
                 break;
 
             case 0xb1:

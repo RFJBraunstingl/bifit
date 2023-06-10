@@ -108,7 +108,7 @@ unsigned int bifit_execute_instruction_invokespecial(
     }
 
     if (bifit_method == NULL) {
-        LOG_DEBUG("could not find method by this name:");
+        LOG_DEBUG("could not find method by this name: ");
         bifit_log_bifit_identifier(&method_identifier);
         LOG_DEBUG("\n");
         KERNEL_PANIC("no such method error!");
