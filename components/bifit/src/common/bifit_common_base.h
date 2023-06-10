@@ -4,7 +4,8 @@
 #ifdef ENABLE_DEBUG_LOGGING
 #define LOG_DEBUG printf
 #else
-#define LOG_DEBUG //
+void bifit_log_debug_printf_stub(const char *str, ...) {}
+#define LOG_DEBUG bifit_log_debug_printf_stub
 #endif
 #define LOG_ERROR printf
 #define KERNEL_PANIC(msg) printf("PANIC: %s\n\nsystem will shut down.\n", msg); exit(1);

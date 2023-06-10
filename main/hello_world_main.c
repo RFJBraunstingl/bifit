@@ -13,14 +13,12 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
-#define DEPLOY_TO_ESP
+// #define ENABLE_DEBUG_LOGGING
 
 #include "bifit.h"
 
 void app_main(void)
 {
-    printf("Hello world!\n");
-
     /* Print chip information */
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);

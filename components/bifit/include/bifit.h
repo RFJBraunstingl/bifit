@@ -55,7 +55,9 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
 
 bifit_context_t *bifit_initialize_context() {
     bifit_context_t *ctx = malloc(sizeof(struct bifit_context));
+    ctx->class_list = NULL;
     ctx->class_list_size = 0;
+    ctx->resolved_static_references = NULL;
 
     bifit_native_bind(ctx);
 
@@ -76,7 +78,7 @@ void bifit_run() {
     LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
     // construct main frame
-    bifit_stack_frame_t *main_frame = bifit_allocate_stack_frame(
+    bifit_allocate_stack_frame(
             context,
             main_class,
             bifit_find_main_method_in_class(main_class)
