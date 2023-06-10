@@ -57,7 +57,7 @@ bifit_context_t *bifit_initialize_context() {
     bifit_context_t *ctx = malloc(sizeof(struct bifit_context));
     ctx->class_list_size = 0;
 
-    bifit_native_bind_references(ctx);
+    bifit_native_bind(ctx);
 
     return ctx;
 }

@@ -41,7 +41,7 @@ unsigned int bifit_execute_instruction_invokevirtual(
     LOG_DEBUG("\n");
 
     // check if method is native
-    if (bifit_native_execute_method(&class_identifier, &method_identifier)) {
+    if (bifit_native_execute_method(&class_identifier, &method_identifier, context)) {
         // if return == true, the method was invoked
         return pc;
     }

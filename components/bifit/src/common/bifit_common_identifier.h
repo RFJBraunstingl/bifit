@@ -32,7 +32,7 @@ void bifit_copy_identifier(bifit_identifier_t *src, bifit_identifier_t *out) {
     out->identifier = src->identifier;
 }
 
-bool bifit_identifier_matches_string(bifit_identifier_t *identifier, char *string) {
+bool bifit_identifier_matches_string(bifit_identifier_t *identifier, const char *string) {
     LOG_DEBUG("identifier_matches_string checking identifier ");
     bifit_log_bifit_identifier(identifier);
     LOG_DEBUG("\n");
@@ -64,7 +64,7 @@ bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identif
     return true;
 }
 
-bifit_identifier_t *bifit_identifier_from_string(const char *str, int len) {
+bifit_identifier_t *bifit_identifier_from_string(const char *str, unsigned long len) {
 
     uint8_t *identifier = malloc(sizeof(uint8_t) * len);
     memcpy(identifier, str, len);
