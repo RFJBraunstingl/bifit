@@ -1,5 +1,7 @@
 #include "../common/bifit_interpreter_common.h"
 
+#include "../../native/bifit_native.h"
+
 unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t *stack_frame) {
     LOG_DEBUG("push single byte indexed constant pool entry onto operand stack\n");
 
@@ -30,8 +32,12 @@ unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t 
     bifit_constant_pool_entry_t utf8_entry =
             stack_frame->current_class->constant_pool.entries[string_index - 1];
 
-    // TODO we'll need to create a String object
     bifit_object_t *string_object = bifit_create_object();
+    string_object->meta = bifit_native_class_String_wrap(
+            utf8_entry.utf8_str,
+            utf8_entry.utf8_str_len
+    );
+
     bifit_operand_stack_push_reference(
             &stack_frame->operand_stack,
             &string_object->reference

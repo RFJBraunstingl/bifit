@@ -48,6 +48,8 @@ typedef struct bifit_object {
     bifit_object_reference_t reference;
     bifit_class_t *object_class;
 
+    void *meta;
+
 } bifit_object_t;
 
 #endif
