@@ -70,8 +70,7 @@ unsigned int bifit_execute_instruction_invokevirtual(
 
     bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context, bifit_class, bifit_method);
 
-    bifit_stack_element_t *top_operand_element = bifit_stack_pop(&(stack_frame->operand_stack));
-    bifit_operand_t *top_operand = top_operand_element->data;
+    bifit_operand_t *top_operand = bifit_stack_pop(&(stack_frame->operand_stack));
     bifit_object_reference_t *obj_ref = top_operand->object_reference;
 
     invoked_stack_frame->local_variable_array[0].object_reference = obj_ref;

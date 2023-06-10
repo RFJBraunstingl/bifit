@@ -13,8 +13,7 @@
 
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     LOG_DEBUG("bifit_execute_stack_frame\n");
-    bifit_stack_element_t *top_frame_stack_element = bifit_stack_peek(&(context->frame_stack));
-    bifit_stack_frame_t *stack_frame = top_frame_stack_element->data;
+    bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
 
     LOG_DEBUG("loading code\n");
     bifit_method_code_t method_code = stack_frame->current_method->code;
