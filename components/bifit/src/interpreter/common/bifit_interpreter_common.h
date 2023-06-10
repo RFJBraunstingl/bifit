@@ -16,9 +16,8 @@ bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context, bifit_
             sizeof(struct bifit_local_variable) * method->code.max_locals
     );
 
-    bifit_stack_element_t *new_stack_element = bifit_stack_create_element_with_data(new_stack_frame);
     LOG_DEBUG("allocation done - pushing frame onto stack\n");
-    bifit_stack_push(&(context->frame_stack), new_stack_element);
+    bifit_stack_push(&(context->frame_stack), new_stack_frame);
 
 
     return new_stack_frame;

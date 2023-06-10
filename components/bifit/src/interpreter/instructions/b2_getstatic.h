@@ -84,7 +84,7 @@ bifit_execute_instruction_getstatic(
             &field_identifier
     );
     if (reference != NULL) {
-        bifit_push_reference_onto_operand_stack(reference, &(stack_frame->operand_stack));
+        bifit_stack_push(&(stack_frame->operand_stack), reference);
         return pc;
     }
 

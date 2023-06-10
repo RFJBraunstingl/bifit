@@ -9,7 +9,7 @@
 
 void bifit_native_PrintStream_println(bifit_context_t *context) {
     bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
-    bifit_object_t *obj = bifit_stack_pop(&(stack_frame->operand_stack));
+    bifit_object_reference_t *obj = bifit_stack_pop(&(stack_frame->operand_stack));
     return;
 }
 

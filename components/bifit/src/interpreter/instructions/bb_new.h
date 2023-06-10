@@ -46,9 +46,9 @@ bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame,
     new_object->object_class = bifit_class;
 
     LOG_DEBUG("push reference onto operand stack\n");
-    bifit_push_reference_onto_operand_stack(
-            &(new_object->reference),
-            &(stack_frame->operand_stack)
+    bifit_stack_push(
+            &(stack_frame->operand_stack),
+            &(new_object->reference)
     );
 
     return pc;
