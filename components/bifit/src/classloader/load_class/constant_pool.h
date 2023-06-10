@@ -45,6 +45,7 @@ void bifit_load_constant_pool(const uint8_t data[], bifit_constant_pool_t *out) 
 
 unsigned int bifit_load_next_constant_pool_entry(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t *out) {
     uint8_t tag = data[index++];
+    out->type = tag;
     LOG_DEBUG("constant has tag %d ", tag);
 
     switch (tag) {

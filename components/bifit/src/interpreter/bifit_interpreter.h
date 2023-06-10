@@ -1,6 +1,7 @@
 #ifndef BIFIT_INTERPRETER_H_
 #define BIFIT_INTERPRETER_H_
 
+#include "instructions/12_ldc.h"
 #include "instructions/2a-2d_aload_n.h"
 #include "instructions/4b-4e_astore_n.h"
 #include "instructions/59_dup.h"
@@ -26,6 +27,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
         LOG_DEBUG("\n%03d: %02x\n", pc, code[pc]);
 
         switch (code[pc]) {
+
+            case 0x12:
+                pc = bifit_execute_instruction_ldc(pc, stack_frame);
+                break;
 
             case 0x2a:
                 pc = bifit_execute_instruction_aload_n(pc, stack_frame, 0);
@@ -73,6 +78,7 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
             case 0xb6:
                 pc = bifit_execute_instruction_invokevirtual(pc, stack_frame, context);
+                break;
 
             case 0xb7:
                 pc = bifit_execute_instruction_invokespecial(pc, stack_frame, context);
