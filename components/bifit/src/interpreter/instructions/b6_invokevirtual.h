@@ -1,4 +1,5 @@
 #include "../common/bifit_interpreter_common.h"
+#include "../../native/bifit_native.h"
 
 unsigned int bifit_execute_instruction_invokevirtual(
         unsigned int pc,
@@ -39,6 +40,13 @@ unsigned int bifit_execute_instruction_invokevirtual(
     bifit_log_bifit_identifier(&method_identifier);
     LOG_DEBUG("\n");
 
+    // check if method is native
+    if (bifit_native_execute_method(&class_identifier, &method_identifier)) {
+        // if return == true, the method was invoked
+        return pc;
+    }
+
+    // otherwise, we continue to look for the java implementation
     bifit_class_t *bifit_class = bifit_find_class_by_identifier(
             context,
             &class_identifier

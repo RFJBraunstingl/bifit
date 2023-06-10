@@ -21,4 +21,20 @@ void bifit_native_bind_references(bifit_context_t *context) {
     );
 }
 
+bool bifit_native_is_native_class(bifit_identifier_t *class_identifier) {
+    return bifit_identifier_matches_string(class_identifier, "java/lang/System") ||
+           bifit_identifier_matches_string(class_identifier, "java/io/PrintStream");
+}
+
+bool bifit_native_execute_method(
+        bifit_identifier_t *class_identifier,
+        bifit_identifier_t *method_identifier) {
+
+    if (!bifit_native_is_native_class(class_identifier)) {
+        return false;
+    }
+
+
+}
+
 #endif //BIFIT_BIFIT_NATIVE_H
