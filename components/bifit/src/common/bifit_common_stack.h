@@ -37,12 +37,15 @@ bifit_stack_element_t *bifit_stack_pop(bifit_stack_t *stack) {
     LOG_DEBUG("bifit_stack_pop\n");
 
     if (stack->top == NULL) {
-        LOG_DEBUG("ERROR: stack was empty - can not pop\n");
-        exit(1);
+        KERNEL_PANIC("ERROR: stack was empty - can not pop\n")
     } else {
         bifit_stack_element_t *ref = stack->top;
         stack->top = stack->top->prev;
-        stack->top = NULL;
+
+        if (stack->top != NULL) {
+            stack->top->next = NULL;
+        }
+
         return ref;
     }
 }

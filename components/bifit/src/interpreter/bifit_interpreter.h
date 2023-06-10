@@ -27,19 +27,19 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
         switch (code[pc]) {
 
             case 0x2a:
-                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 0);
+                pc = bifit_execute_instruction_aload_n(pc, stack_frame, 0);
                 break;
 
             case 0x2b:
-                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 1);
+                pc = bifit_execute_instruction_aload_n(pc, stack_frame, 1);
                 break;
 
             case 0x2c:
-                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 2);
+                pc = bifit_execute_instruction_aload_n(pc, stack_frame, 2);
                 break;
 
             case 0x2d:
-                pc = bifit_execute_instruction_astore_n(pc, stack_frame, 3);
+                pc = bifit_execute_instruction_aload_n(pc, stack_frame, 3);
                 break;
 
             case 0x4b:
@@ -64,7 +64,6 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
             case 0xb1:
                 LOG_DEBUG("return\n");
-                // TODO: ??? bifit_stack_pop(&(context->frame_stack)); ???
                 return;
 
             case 0xb2:

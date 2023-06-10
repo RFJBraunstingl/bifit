@@ -63,4 +63,16 @@ bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identif
     return true;
 }
 
+bifit_identifier_t *bifit_identifier_from_string(const char *str, int len) {
+
+    uint8_t *identifier = malloc(sizeof(uint8_t) * len);
+    memcpy(identifier, str, len);
+
+    bifit_identifier_t *result = malloc(sizeof(struct bifit_identifier));
+    result->identifier = identifier;
+    result->identifier_length = len;
+
+    return result;
+}
+
 #endif //BIFIT_BIFIT_COMMON_IDENTIFIER_H

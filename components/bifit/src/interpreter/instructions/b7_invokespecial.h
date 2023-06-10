@@ -97,29 +97,31 @@ bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *st
 
     bifit_method_t *bifit_method = NULL;
     for (int i = 0; i < bifit_class->methods.method_count; ++i) {
-        if (!bifit_identifier_matches_identifier(
-                &(method_identifier),
-                &(bifit_class->methods.method_array[i].name)
-        )) {
-            continue;
+        bifit_identifier_t current_method_name = bifit_class->methods.method_array[i].name;
+        if (bifit_identifier_matches_identifier(&method_identifier, &current_method_name)) {
+            bifit_method = &(bifit_class->methods.method_array[i]);
+            break;
         }
-
-        bifit_method = &(bifit_class->methods.method_array[i]);
     }
 
+    if (bifit_method == NULL) {
+        LOG_DEBUG("could not find method by this name:");
+        bifit_log_bifit_identifier(&method_identifier);
+        LOG_DEBUG("\n");
+        KERNEL_PANIC("no such method error!");
+    }
     bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context, bifit_class, bifit_method);
 
     bifit_stack_element_t *top_operand_element = bifit_stack_pop(&(stack_frame->operand_stack));
     bifit_operand_t *top_operand = top_operand_element->data;
     bifit_object_reference_t *obj_ref = top_operand->object_reference;
 
-    stack_frame->local_variable_array[0].object_reference = obj_ref;
+    invoked_stack_frame->local_variable_array[0].object_reference = obj_ref;
 
-    bifit_stack_element_t *frame_stack_element = bifit_stack_create_element_with_data(invoked_stack_frame);
-    bifit_stack_push(&(context->frame_stack),frame_stack_element);
     bifit_execute_current_stack_frame_in_context(context);
 
-    // free popped operand stack element
+    // after execution of the new stack frame, free all resources
+    bifit_stack_pop(&(context->frame_stack));
     free(top_operand_element);
 
     return pc;

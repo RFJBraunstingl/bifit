@@ -8,6 +8,7 @@
 
 #include "../src/classloader/bifit_classloader.h"
 #include "../src/interpreter/bifit_interpreter.h"
+#include "../src/native/bifit_native.h"
 
 bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
     LOG_DEBUG("scanning for a (public static) main method...\n");
@@ -54,8 +55,9 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
 
 bifit_context_t *bifit_initialize_context() {
     bifit_context_t *ctx = malloc(sizeof(struct bifit_context));
-
     ctx->class_list_size = 0;
+
+    bifit_native_bind_references(ctx);
 
     return ctx;
 }
@@ -80,11 +82,7 @@ void bifit_run() {
             bifit_find_main_method_in_class(main_class)
     );
 
-    LOG_DEBUG("main method found!\n\n");
-    bifit_stack_push(
-            &(context->frame_stack),
-            bifit_stack_create_element_with_data(main_frame)
-    );
+    LOG_DEBUG("start executing main...\n\n");
     bifit_execute_current_stack_frame_in_context(context);
 }
 
