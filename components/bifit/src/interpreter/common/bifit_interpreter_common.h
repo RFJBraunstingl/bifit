@@ -5,17 +5,6 @@
 
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context);
 
-static unsigned int object_reference_counter = 0;
-
-bifit_object_t *bifit_create_object() {
-    bifit_object_t *new_object = malloc(sizeof(struct bifit_object));
-
-    // init reference
-    new_object->reference.id = (++object_reference_counter);
-
-    return new_object;
-}
-
 bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
 
     bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));

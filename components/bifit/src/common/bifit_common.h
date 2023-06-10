@@ -3,6 +3,7 @@
 
 #include "bifit_common_base.h"
 #include "bifit_common_identifier.h"
+#include "bifit_common_object.h"
 #include "bifit_common_stack.h"
 
 unsigned int bifit_parse_integer_u2(unsigned int index, const uint8_t data[]) {
