@@ -25,10 +25,20 @@ typedef struct bifit_stack_frame {
 
 } bifit_stack_frame_t;
 
+typedef struct bifit_resolved_static_reference_node {
+
+    bifit_identifier_t *class_identifier;
+    bifit_identifier_t *field_identifier;
+    bifit_object_reference_t *reference;
+    struct bifit_resolved_static_reference_node *next;
+
+} bifit_resolved_static_reference_node_t;
+
 typedef struct bifit_context {
 
     bifit_class_t *class_list;
     unsigned int class_list_size;
+    bifit_resolved_static_reference_node_t *resolved_static_references;
     bifit_stack_t frame_stack;
 
 } bifit_context_t;

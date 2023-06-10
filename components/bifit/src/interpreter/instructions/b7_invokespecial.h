@@ -18,7 +18,7 @@ bifit_execute_instruction_invokespecial(unsigned int pc, bifit_stack_frame_t *st
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
     ++pc;
 
-    /* i.e.:
+    /*
      * const_pool_index == 3
      * ---
      * reading constant pool entry 2

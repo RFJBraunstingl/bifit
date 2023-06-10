@@ -1,7 +1,11 @@
 #include "../common/bifit_interpreter_common.h"
 
 unsigned int
-bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
+bifit_execute_instruction_getstatic(
+        unsigned int pc,
+        bifit_stack_frame_t *stack_frame,
+        bifit_context_t *context) {
+
     LOG_DEBUG("Get static field from class\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
@@ -9,7 +13,7 @@ bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_
     LOG_DEBUG("const_pool_index: %d\n", field_ref_index);
     ++pc;
 
-    /* i.e.:
+    /*
      * const_pool_index == 4
      * ---
      * reading constant pool entry 4
@@ -73,6 +77,17 @@ bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_
     bifit_log_bifit_identifier(&field_identifier);
     LOG_DEBUG("\n");
 
+    /* check if the static field is already resolved */
+    bifit_object_reference_t *reference = bifit_get_resolved_reference(
+            context,
+            &class_identifier,
+            &field_identifier
+    );
+    if (reference != NULL) {
+        bifit_push_reference_onto_operand_stack(reference, &(stack_frame->operand_stack));
+        return pc;
+    }
+
     bifit_class_t *src_class = bifit_find_class_by_identifier(
             context,
             &class_identifier
@@ -83,15 +98,13 @@ bifit_execute_instruction_getstatic(unsigned int pc, bifit_stack_frame_t *stack_
                 &current_field.name,
                 &field_identifier
         )) {
-            LOG_DEBUG("HEUREKA: field by name was found!\n");
-
+            LOG_DEBUG("field by name was found!\n");
             if (!current_field.access_flags.is_static) {
                 LOG_DEBUG("it was NOT static, though...\n");
                 continue;
             }
 
-            // push the field found on the operand stack
-            // current_field->
+            // TODO: push the field found on the operand stack
         }
     }
 

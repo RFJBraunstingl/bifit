@@ -146,8 +146,27 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
         bifit_log_bifit_identifier(identifier);
         LOG_ERROR("\n");
 
-        exit(1);
+        KERNEL_PANIC("class def not found error!");
     }
+}
+
+bifit_object_reference_t *bifit_get_resolved_reference(
+        bifit_context_t *context,
+        bifit_identifier_t *class_identifier,
+        bifit_identifier_t *field_identifier) {
+
+    bifit_resolved_static_reference_node_t *p = context->resolved_static_references;
+    while (p != NULL) {
+        if (bifit_identifier_matches_identifier(p->class_identifier, class_identifier) &&
+            bifit_identifier_matches_identifier(p->field_identifier, field_identifier)) {
+
+            return p->reference;
+        }
+
+        p = p->next;
+    }
+
+    return NULL;
 }
 
 #endif
