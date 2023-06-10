@@ -8,6 +8,8 @@
 #include "bifit_native_classes_common.h"
 
 void bifit_native_PrintStream_println(bifit_context_t *context) {
+    bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack))->data;
+
     return;
 }
 

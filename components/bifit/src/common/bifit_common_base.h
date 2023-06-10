@@ -1,7 +1,11 @@
 #ifndef BIFIT_COMMON_BASE_H_
 #define BIFIT_COMMON_BASE_H_
 
+#ifdef ENABLE_DEBUG_LOGGING
 #define LOG_DEBUG printf
+#else
+#define LOG_DEBUG //
+#endif
 #define LOG_ERROR printf
 #define KERNEL_PANIC(msg) printf("PANIC: %s\n\nsystem will shut down.\n", msg); exit(1);
 

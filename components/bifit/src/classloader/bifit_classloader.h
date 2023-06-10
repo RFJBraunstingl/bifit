@@ -4,7 +4,7 @@
 #include "../common/bifit_common.h"
 #include "load_class/load_class.h"
 
-#ifdef DEPLOY_TO_ESP
+#ifndef RUN_LOCAL
 #include "classes_combined.h"
 #else
 #include "../../../classes_combined/include/classes_combined.h"
