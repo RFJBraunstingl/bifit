@@ -6,7 +6,7 @@ unsigned int bifit_execute_instruction_aload_n(unsigned int pc, bifit_stack_fram
     bifit_object_reference_t *ref = stack_frame->local_variable_array[n].object_reference;
 
     bifit_stack_t *operand_stack = &(stack_frame->operand_stack);
-    bifit_stack_push(operand_stack, ref);
+    bifit_operand_stack_push_reference(operand_stack, ref);
 
     return pc;
 }

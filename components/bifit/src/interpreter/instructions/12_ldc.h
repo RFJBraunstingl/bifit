@@ -32,7 +32,7 @@ unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t 
 
     // TODO we'll need to create a String object
     bifit_object_t *string_object = bifit_create_object();
-    bifit_stack_push(
+    bifit_operand_stack_push_reference(
             &stack_frame->operand_stack,
             &string_object->reference
     );
