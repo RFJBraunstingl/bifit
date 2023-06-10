@@ -13,7 +13,8 @@ void bifit_log_identifier_with_length(const uint8_t *identifier, unsigned int id
     }
 }
 
-void bifit_load_identifier_by_name_index(unsigned int name_index, bifit_constant_pool_entry_t *entries,
+void bifit_load_identifier_by_name_index(unsigned int name_index,
+                                         bifit_constant_pool_entry_t *entries,
                                          bifit_identifier_t *out) {
     // NOTE: indexing in constant pool starts with 1!
     bifit_constant_pool_entry_t identifier_entry = entries[name_index - 1];
