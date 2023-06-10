@@ -11,9 +11,10 @@
 void bifit_native_PrintStream_println(bifit_context_t *context) {
     bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
     bifit_object_reference_t *string_reference = bifit_operand_stack_pop_reference(&(stack_frame->operand_stack));
-    bifit_object_reference_t *stream_reference = bifit_operand_stack_pop_reference(&(stack_frame->operand_stack));
 
     // TODO: validate stream is known
+    // bifit_object_reference_t *stream_reference = bifit_operand_stack_pop_reference(&(stack_frame->operand_stack));
+
     bifit_object_t *string_object = bifit_object_get(string_reference);
     bifit_native_String_t *native_string = string_object->meta;
 
