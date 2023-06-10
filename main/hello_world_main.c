@@ -35,6 +35,8 @@ void app_main(void)
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
 
+    printf("\n\n\n\n");
+    printf("running bifit...\n");
     bifit_run();
 
     // for (int i = 10; i >= 0; i--) {
