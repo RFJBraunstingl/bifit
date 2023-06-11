@@ -9,22 +9,23 @@
 #include "instructions/b2_getstatic.h"
 #include "instructions/b6_invokevirtual.h"
 #include "instructions/b7_invokespecial.h"
+#include "instructions/b8_invokestatic.h"
 #include "instructions/bb_new.h"
 
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
-    LOG_DEBUG("bifit_execute_stack_frame\n");
+    BIFIT_LOG_DEBUG("bifit_execute_stack_frame\n");
     bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
 
-    LOG_DEBUG("loading code\n");
+    BIFIT_LOG_DEBUG("loading code\n");
     bifit_method_code_t method_code = stack_frame->current_method->code;
 
-    LOG_DEBUG("executing method ");
+    BIFIT_LOG_DEBUG("executing method ");
     bifit_log_bifit_identifier(&(stack_frame->current_method->name));
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     const uint8_t *code = method_code.byte_code;
     for (unsigned int pc = 0; pc < method_code.byte_code_length; ++pc) {
-        LOG_DEBUG("\n%03d: %02x\n", pc, code[pc]);
+        BIFIT_LOG_DEBUG("\n%03d: %02x\n", pc, code[pc]);
 
         switch (code[pc]) {
 
@@ -73,7 +74,7 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
                 break;
 
             case 0xb1:
-                LOG_DEBUG("return\n");
+                BIFIT_LOG_DEBUG("return\n");
                 return;
 
             case 0xb2:
@@ -88,16 +89,20 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
                 pc = bifit_execute_instruction_invokespecial(pc, stack_frame, context);
                 break;
 
+            case 0xb8:
+                pc = bifit_execute_instruction_invokestatic(pc, stack_frame, context);
+                break;
+
             case 0xbb:
                 pc = bifit_execute_instruction_new(pc, stack_frame, context);
                 break;
 
             default:
-                LOG_DEBUG("unknown op code\n");
+                BIFIT_LOG_DEBUG("unknown op code\n");
                 break;
         }
     }
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 }
 
 #endif

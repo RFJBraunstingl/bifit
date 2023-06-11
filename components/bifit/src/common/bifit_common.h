@@ -41,14 +41,14 @@ bifit_class_t *bifit_find_class_by_name(bifit_context_t *context, char *identifi
         }
     }
 
-    LOG_ERROR("class not found error: %s\n", identifier);
+    BIFIT_LOG_ERROR("class not found error: %s\n", identifier);
     exit(1);
 }
 
 bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_identifier_t *identifier) {
-    LOG_DEBUG("bifit_find_class_by_identifier ");
+    BIFIT_LOG_DEBUG("bifit_find_class_by_identifier ");
     bifit_log_bifit_identifier(identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     bifit_identifier_t *lookup_identifier = identifier;
 
@@ -61,7 +61,7 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
         'a' == identifier->identifier[3] &&
         '/' == identifier->identifier[4]) {
 
-        LOG_DEBUG("find class special case - java/ prefix is ignored!\n");
+        BIFIT_LOG_DEBUG("find class special case - java/ prefix is ignored!\n");
         bifit_identifier_t *temp = malloc(sizeof(struct bifit_identifier));
         bifit_copy_identifier(identifier, temp);
 
@@ -84,11 +84,11 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
             }
         }
 
-        LOG_ERROR("class not found error: ");
+        BIFIT_LOG_ERROR("class not found error: ");
         bifit_log_bifit_identifier(identifier);
-        LOG_ERROR("\n");
+        BIFIT_LOG_ERROR("\n");
 
-        KERNEL_PANIC("class def not found error!");
+        BIFIT_KERNEL_PANIC("class def not found error!");
     }
 }
 

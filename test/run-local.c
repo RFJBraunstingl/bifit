@@ -1,5 +1,5 @@
-#define RUN_LOCAL
-// #define ENABLE_DEBUG_LOGGING
+#define BIFIT_CONFIG_RUN_LOCAL
+#define BIFIT_CONFIG_ENABLE_DEBUG_LOGGING
 
 #include "../components/bifit/include/bifit.h"
 

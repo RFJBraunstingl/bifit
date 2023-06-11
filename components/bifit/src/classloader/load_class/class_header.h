@@ -13,13 +13,13 @@ void bifit_load_class_header(const uint8_t data[], bifit_class_header_t *out) {
 
     // minor version at byte index 4-5
     out->minor_version = bifit_parse_integer_u2(BIFIT_MINOR_VERSION_BYTE_OFFSET, data);
-    LOG_DEBUG("load_class_header minor_version: %d\n", out->minor_version);
+    BIFIT_LOG_DEBUG("load_class_header minor_version: %d\n", out->minor_version);
     // major version at byte index 6-7
     out->major_version = bifit_parse_integer_u2(BIFIT_MAJOR_VERSION_BYTE_OFFSET, data);
-    LOG_DEBUG("load_class_header major_version: %d\n", out->major_version);
+    BIFIT_LOG_DEBUG("load_class_header major_version: %d\n", out->major_version);
     // guess java version
     out->java_version = out->major_version - BIFIT_JAVA_MAJOR_VERSION_OFFSET;
-    LOG_DEBUG("guessing java_version: %d\n", out->java_version);
+    BIFIT_LOG_DEBUG("guessing java_version: %d\n", out->java_version);
 }
 
 #endif

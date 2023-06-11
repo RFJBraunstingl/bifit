@@ -6,7 +6,7 @@ unsigned int bifit_execute_instruction_invokevirtual(
         bifit_stack_frame_t *stack_frame,
         bifit_context_t *context) {
 
-    LOG_DEBUG("invoke virtual method\n");
+    BIFIT_LOG_DEBUG("invoke virtual method\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
@@ -34,11 +34,11 @@ unsigned int bifit_execute_instruction_invokevirtual(
             &method_identifier
     );
 
-    LOG_DEBUG("invokevirtual - should invoke ");
+    BIFIT_LOG_DEBUG("invokevirtual - should invoke ");
     bifit_log_bifit_identifier(&class_identifier);
-    LOG_DEBUG(".");
+    BIFIT_LOG_DEBUG(".");
     bifit_log_bifit_identifier(&method_identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     // check if method is native
     if (bifit_native_execute_method(&class_identifier, &method_identifier, context)) {
@@ -62,10 +62,10 @@ unsigned int bifit_execute_instruction_invokevirtual(
     }
 
     if (bifit_method == NULL) {
-        LOG_DEBUG("could not find method by this name: ");
+        BIFIT_LOG_DEBUG("could not find method by this name: ");
         bifit_log_bifit_identifier(&method_identifier);
-        LOG_DEBUG("\n");
-        KERNEL_PANIC("no such method error!");
+        BIFIT_LOG_DEBUG("\n");
+        BIFIT_KERNEL_PANIC("no such method error!");
     }
 
     bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context, bifit_class, bifit_method);

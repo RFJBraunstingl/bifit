@@ -9,7 +9,7 @@ void bifit_load_fields(unsigned int start_index, const uint8_t *data, bifit_clas
     unsigned int index = start_index;
 
     out->fields.field_count = bifit_parse_integer_u2(index, data);
-    LOG_DEBUG("load_fields num of fields: %d\n", out->fields.field_count);
+    BIFIT_LOG_DEBUG("load_fields num of fields: %d\n", out->fields.field_count);
     index += 2;
 
     out->fields.field_array = malloc(sizeof(struct bifit_field) * out->fields.field_count);
@@ -19,7 +19,7 @@ void bifit_load_fields(unsigned int start_index, const uint8_t *data, bifit_clas
     }
 
     out->fields.size_in_bytes = index - start_index;
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 }
 
 /*

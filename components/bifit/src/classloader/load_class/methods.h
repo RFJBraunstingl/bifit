@@ -13,7 +13,7 @@ void bifit_load_methods(unsigned int start_index, const uint8_t *data, bifit_con
     unsigned int index = start_index;
 
     out->method_count = bifit_parse_integer_u2(index, data);
-    LOG_DEBUG("load_methods num of methods: %d\n", out->method_count);
+    BIFIT_LOG_DEBUG("load_methods num of methods: %d\n", out->method_count);
     index += 2;
 
     out->method_array = malloc(sizeof(struct bifit_method) * out->method_count);
@@ -41,24 +41,24 @@ unsigned int bifit_load_method(unsigned int index, const uint8_t *data, bifit_co
     unsigned int name_index = bifit_parse_integer_u2(index, data);
     index += 2;
 
-    LOG_DEBUG("load_method name_index was %d\n", name_index);
+    BIFIT_LOG_DEBUG("load_method name_index was %d\n", name_index);
     bifit_load_identifier_by_name_index(name_index, entries, &(out->name));
 
-    LOG_DEBUG("loading method ");
+    BIFIT_LOG_DEBUG("loading method ");
     bifit_log_bifit_identifier(&(out->name));
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     unsigned int descriptor_index = bifit_parse_integer_u2(index, data);
     index += 2;
     bifit_load_identifier_by_name_index(descriptor_index, entries, &(out->descriptor));
 
-    LOG_DEBUG("descriptor ");
+    BIFIT_LOG_DEBUG("descriptor ");
     bifit_log_bifit_identifier(&(out->descriptor));
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
 
     out->attributes_count = bifit_parse_integer_u2(index, data);
-    LOG_DEBUG("method attribute count was %d\n", out->attributes_count);
+    BIFIT_LOG_DEBUG("method attribute count was %d\n", out->attributes_count);
     index += 2;
 
     // TODO: unify with field attributes
@@ -70,7 +70,7 @@ unsigned int bifit_load_method(unsigned int index, const uint8_t *data, bifit_co
 
     bifit_load_method_code(out);
 
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
     return index;
 }
 
@@ -130,20 +130,20 @@ void bifit_load_method_code(bifit_method_t *method) {
 
         if (bifit_is_code_attribute_identifier(&(attr.name))) {
             out->max_stack = bifit_parse_integer_u2(0, attr.data);
-            LOG_DEBUG("method max_stack: %d\n", out->max_stack);
+            BIFIT_LOG_DEBUG("method max_stack: %d\n", out->max_stack);
             out->max_locals = bifit_parse_integer_u2(2, attr.data);
-            LOG_DEBUG("method max_locals: %d\n", out->max_locals);
+            BIFIT_LOG_DEBUG("method max_locals: %d\n", out->max_locals);
             out->byte_code_length = bifit_parse_integer_u4(4, attr.data);
-            LOG_DEBUG("code_length: %d\n", out->byte_code_length);
+            BIFIT_LOG_DEBUG("code_length: %d\n", out->byte_code_length);
             out->byte_code = &attr.data[8];
 
             // if PRINT_BYTE_CODE
             for (int j = 0; j < out->byte_code_length; ++j) {
-                // LOG_DEBUG("0x%02x\n", out->byte_code[j]);
+                // BIFIT_LOG_DEBUG("0x%02x\n", out->byte_code[j]);
             }
 
             unsigned int attr_data_index = 8 + out->byte_code_length;
-            LOG_DEBUG("attr_data_index: %d\n", attr_data_index);
+            BIFIT_LOG_DEBUG("attr_data_index: %d\n", attr_data_index);
 
             // exception table loading follows here
         }

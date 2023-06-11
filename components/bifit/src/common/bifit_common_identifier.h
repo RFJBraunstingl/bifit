@@ -9,7 +9,7 @@
 
 void bifit_log_identifier_with_length(const uint8_t *identifier, unsigned int identifier_length) {
     for (int i = 0; i < identifier_length; ++i) {
-        LOG_DEBUG("%c", identifier[i]);
+        BIFIT_LOG_DEBUG("%c", identifier[i]);
     }
 }
 
@@ -33,9 +33,9 @@ void bifit_copy_identifier(bifit_identifier_t *src, bifit_identifier_t *out) {
 }
 
 bool bifit_identifier_matches_string(bifit_identifier_t *identifier, const char *string) {
-    LOG_DEBUG("identifier_matches_string checking identifier ");
+    BIFIT_LOG_DEBUG("identifier_matches_string checking identifier ");
     bifit_log_bifit_identifier(identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     if (identifier->identifier_length != strlen(string)) {
         return false;

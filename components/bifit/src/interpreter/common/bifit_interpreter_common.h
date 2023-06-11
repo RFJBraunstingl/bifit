@@ -16,7 +16,7 @@ bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context, bifit_
             sizeof(struct bifit_local_variable) * method->code.max_locals
     );
 
-    LOG_DEBUG("allocation done - pushing frame onto stack\n");
+    BIFIT_LOG_DEBUG("allocation done - pushing frame onto stack\n");
     bifit_stack_push(&(context->frame_stack), new_stack_frame);
 
 

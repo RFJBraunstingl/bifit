@@ -2,12 +2,12 @@
 
 unsigned int
 bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame, bifit_context_t *context) {
-    LOG_DEBUG("create new object\n");
+    BIFIT_LOG_DEBUG("create new object\n");
     const uint8_t *code = stack_frame->current_method->code.byte_code;
 
     // consume next 2 instructions as index to constant pool
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);
-    LOG_DEBUG("const_pool_index: %d\n", const_pool_index);
+    BIFIT_LOG_DEBUG("const_pool_index: %d\n", const_pool_index);
     ++pc;
 
     /*
@@ -32,20 +32,20 @@ bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame,
             &class_identifier
     );
 
-    LOG_DEBUG("attempt to create object of type ");
+    BIFIT_LOG_DEBUG("attempt to create object of type ");
     bifit_log_bifit_identifier(&class_identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     bifit_class_t *bifit_class = bifit_find_class_by_identifier(
             context,
             &class_identifier
     );
 
-    LOG_DEBUG("create new object reference for class\n");
+    BIFIT_LOG_DEBUG("create new object reference for class\n");
     bifit_object_t *new_object = bifit_create_object();
     new_object->object_class = bifit_class;
 
-    LOG_DEBUG("push reference onto operand stack\n");
+    BIFIT_LOG_DEBUG("push reference onto operand stack\n");
     bifit_operand_stack_push_reference(
             &(stack_frame->operand_stack),
             &(new_object->reference)

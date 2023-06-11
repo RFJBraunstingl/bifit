@@ -6,11 +6,11 @@ bifit_execute_instruction_getstatic(
         bifit_stack_frame_t *stack_frame,
         bifit_context_t *context) {
 
-    LOG_DEBUG("Get static field from class\n");
+    BIFIT_LOG_DEBUG("Get static field from class\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
     unsigned int field_ref_index = bifit_parse_integer_u2(++pc, code);
-    LOG_DEBUG("const_pool_index: %d\n", field_ref_index);
+    BIFIT_LOG_DEBUG("const_pool_index: %d\n", field_ref_index);
     ++pc;
 
     /*
@@ -48,8 +48,8 @@ bifit_execute_instruction_getstatic(
 
     bifit_constant_pool_entry_t field_ref_entry =
             stack_frame->current_class->constant_pool.entries[field_ref_index - 1];
-    LOG_DEBUG("class_index was %d\n", field_ref_entry.class_index);
-    LOG_DEBUG("name_and_type_index was %d\n", field_ref_entry.name_and_type_index);
+    BIFIT_LOG_DEBUG("class_index was %d\n", field_ref_entry.class_index);
+    BIFIT_LOG_DEBUG("name_and_type_index was %d\n", field_ref_entry.name_and_type_index);
 
     bifit_constant_pool_entry_t class_ref_entry =
             stack_frame->current_class->constant_pool.entries[field_ref_entry.class_index - 1];
@@ -60,9 +60,9 @@ bifit_execute_instruction_getstatic(
             stack_frame->current_class->constant_pool.entries,
             &class_identifier
     );
-    LOG_DEBUG("attempt to getstatic from class ");
+    BIFIT_LOG_DEBUG("attempt to getstatic from class ");
     bifit_log_bifit_identifier(&class_identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     bifit_constant_pool_entry_t name_and_type_entry =
             stack_frame->current_class->constant_pool.entries[field_ref_entry.name_and_type_index - 1];
@@ -73,9 +73,9 @@ bifit_execute_instruction_getstatic(
             stack_frame->current_class->constant_pool.entries,
             &field_identifier
     );
-    LOG_DEBUG("attempt to getstatic fieldname: ");
+    BIFIT_LOG_DEBUG("attempt to getstatic fieldname: ");
     bifit_log_bifit_identifier(&field_identifier);
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     /* check if the static field is already resolved */
     bifit_object_reference_t *reference = bifit_resolved_static_reference_get(
@@ -98,9 +98,9 @@ bifit_execute_instruction_getstatic(
                 &current_field.name,
                 &field_identifier
         )) {
-            LOG_DEBUG("field by name was found!\n");
+            BIFIT_LOG_DEBUG("field by name was found!\n");
             if (!current_field.access_flags.is_static) {
-                LOG_DEBUG("it was NOT static, though...\n");
+                BIFIT_LOG_DEBUG("it was NOT static, though...\n");
                 continue;
             }
 

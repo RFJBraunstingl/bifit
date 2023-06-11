@@ -4,7 +4,7 @@
 #include "../common/bifit_common.h"
 #include "load_class/load_class.h"
 
-#ifndef RUN_LOCAL
+#ifndef BIFIT_CONFIG_RUN_LOCAL
 #include "classes_combined.h"
 #else
 #include "../../../classes_combined/include/classes_combined.h"

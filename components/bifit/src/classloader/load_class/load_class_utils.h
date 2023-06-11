@@ -13,16 +13,16 @@ attribute_info {
 unsigned int bifit_load_attribute(unsigned int index, const uint8_t *data, bifit_constant_pool_entry_t *entries, bifit_attribute_t *out) {
 
     unsigned int name_index = bifit_parse_integer_u2(index, data);
-    LOG_DEBUG("name_index: %d\n", name_index);
+    BIFIT_LOG_DEBUG("name_index: %d\n", name_index);
     bifit_load_identifier_by_name_index(name_index, entries, &(out->name));
     index += 2;
-    LOG_DEBUG("loading attribute ");
+    BIFIT_LOG_DEBUG("loading attribute ");
     bifit_log_bifit_identifier(&(out->name));
-    LOG_DEBUG("\n");
+    BIFIT_LOG_DEBUG("\n");
 
     out->length_in_bytes = bifit_parse_integer_u4(index, data);
     index += 4;
-    LOG_DEBUG("attribute length was %d\n", out->length_in_bytes);
+    BIFIT_LOG_DEBUG("attribute length was %d\n", out->length_in_bytes);
 
     out->data = &data[index];
 

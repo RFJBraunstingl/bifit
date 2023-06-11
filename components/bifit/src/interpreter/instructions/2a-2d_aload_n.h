@@ -1,7 +1,7 @@
 #include "../common/bifit_interpreter_common.h"
 
 unsigned int bifit_execute_instruction_aload_n(unsigned int pc, bifit_stack_frame_t *stack_frame, int n) {
-    LOG_DEBUG("load reference from local variable\n");
+    BIFIT_LOG_DEBUG("load reference from local variable\n");
 
     bifit_object_reference_t *ref = stack_frame->local_variable_array[n].object_reference;
 

@@ -33,9 +33,9 @@ void bifit_load_class(const uint8_t *data, bifit_class_t *out) {
     bifit_load_methods(byte_index, data, out->constant_pool.entries, &(out->methods));
     byte_index += out->methods.size_in_bytes;
 
-    LOG_DEBUG("done loading methods for class ");
+    BIFIT_LOG_DEBUG("done loading methods for class ");
     bifit_log_bifit_identifier(&(out->this_class));
-    LOG_DEBUG("\n\n\n");
+    BIFIT_LOG_DEBUG("\n\n\n");
 }
 
 

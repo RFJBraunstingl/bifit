@@ -6,7 +6,7 @@ unsigned int bifit_execute_instruction_areturn(
         bifit_context_t *context
 ) {
 
-    LOG_DEBUG("return top element of operand stack\n");
+    BIFIT_LOG_DEBUG("return top element of operand stack\n");
 
     // pop the top element and
     bifit_operand_t *op = bifit_stack_pop(&(stack_frame->operand_stack));

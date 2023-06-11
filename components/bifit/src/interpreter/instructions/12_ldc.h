@@ -3,7 +3,7 @@
 #include "../../native/bifit_native.h"
 
 unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t *stack_frame) {
-    LOG_DEBUG("push single byte indexed constant pool entry onto operand stack\n");
+    BIFIT_LOG_DEBUG("push single byte indexed constant pool entry onto operand stack\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
     const uint8_t const_pool_index = code[++pc];
@@ -24,8 +24,8 @@ unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t 
     bifit_constant_pool_entry_t constant_entry =
             stack_frame->current_class->constant_pool.entries[const_pool_index - 1];
 
-    if (constant_entry.type != CONSTANT_POOL_TAG_STRING) {
-        KERNEL_PANIC("ldc: constant type not supported!")
+    if (constant_entry.type != BIFIT_CONSTANT_POOL_TAG_STRING) {
+        BIFIT_KERNEL_PANIC("ldc: constant type not supported!")
     }
 
     unsigned int string_index = constant_entry.name_index;

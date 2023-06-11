@@ -13,7 +13,7 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
-// #define ENABLE_DEBUG_LOGGING
+// #define BIFIT_CONFIG_ENABLE_DEBUG_LOGGING
 
 #include "bifit.h"
 
