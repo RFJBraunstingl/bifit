@@ -19,6 +19,9 @@ static bifit_object_node_t *bifit_object_register = NULL;
 
 bifit_object_t *bifit_create_object() {
     bifit_object_t *new_object = malloc(sizeof(struct bifit_object));
+    if (new_object == NULL) {
+        BIFIT_KERNEL_PANIC("ERROR: OutOfMemory")
+    }
 
     // init reference
     new_object->reference.id = (++object_reference_counter);
