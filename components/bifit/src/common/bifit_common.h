@@ -15,6 +15,15 @@ unsigned int bifit_parse_integer_u2(unsigned int index, const uint8_t data[]) {
     return result;
 }
 
+int bifit_parse_integer_s2(unsigned int index, const uint8_t data[]) {
+    int16_t result = data[index];
+    result = result << 8;
+
+    result |= data[index + 1];
+
+    return result;
+}
+
 unsigned int bifit_parse_integer_u4(unsigned int index, const uint8_t data[]) {
     unsigned int result = data[index++];
     result = result << 8;
