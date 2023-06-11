@@ -8,7 +8,8 @@ public class HelloWorld {
         }
     }
 
-    private static void greet(Greeter greeter) {
+    private static void greet(Greeter g) {
+        Greeter greeter = new Greeter();
         System.out.println(greeter.sayHello());
     }
 }
