@@ -6,7 +6,7 @@ unsigned int bifit_execute_instruction_invokestatic(
         bifit_stack_frame_t *stack_frame,
         bifit_context_t *context) {
 
-    BIFIT_LOG_DEBUG("invoke virtual method\n");
+    BIFIT_LOG_DEBUG("invoke static method\n");
 
     const uint8_t *code = stack_frame->current_method->code.byte_code;
     unsigned int const_pool_index = bifit_parse_integer_u2(++pc, code);

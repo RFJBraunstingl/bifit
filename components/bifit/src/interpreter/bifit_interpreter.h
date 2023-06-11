@@ -12,6 +12,12 @@
 #include "instructions/b8_invokestatic.h"
 #include "instructions/bb_new.h"
 
+#ifdef BIFIT_CONFIG_DONT_DIE_ON_UNKNOWN_OPCODE
+static bool bifit_dont_die_on_unknown_opcode = true;
+#else
+static bool bifit_dont_die_on_unknown_opcode = false;
+#endif
+
 void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
     BIFIT_LOG_DEBUG("bifit_execute_stack_frame\n");
     bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
@@ -99,7 +105,10 @@ void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
 
             default:
                 BIFIT_LOG_DEBUG("unknown op code\n");
-                break;
+                if (bifit_dont_die_on_unknown_opcode) {
+                    break;
+                }
+                BIFIT_KERNEL_PANIC("unsupported opcode!")
         }
     }
     BIFIT_LOG_DEBUG("\n");
