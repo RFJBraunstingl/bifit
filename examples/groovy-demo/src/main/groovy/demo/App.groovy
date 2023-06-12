@@ -2,10 +2,11 @@ package demo
 
 class App {
     String getGreeting() {
-        return 'Hello World!'
+        return 'Hello Groovy!'
     }
 
     static void main(String[] args) {
-        println new App().greeting
+        def app = new App()
+        println app.greeting
     }
 }

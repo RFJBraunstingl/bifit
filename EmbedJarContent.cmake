@@ -1,12 +1,4 @@
 function(SetupEmbed)
-    if (NOT EXISTS ${PROJECT_DIR}/classes)
-        file(MAKE_DIRECTORY ${PROJECT_DIR}/classes)
-    endif ()
-
-    # add_library(class_files
-    #         ${PROJECT_DIR}/components/classes_combined/lib/classes.h
-    #         ${PROJECT_DIR}/components/classes_combined/classes_combined.c)
-    # target_include_directories(class_files PUBLIC ${PROJECT_DIR}/classes)
 
     set(output_h "
 #ifndef BIFIT_CLASSES_H_
