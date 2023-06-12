@@ -25,7 +25,7 @@ bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame,
     bifit_constant_pool_entry_t class_reference_entry =
             stack_frame->current_class->constant_pool.entries[const_pool_index - 1];
 
-    bifit_identifier_t class_identifier; // = malloc(sizeof(struct bifit_identifier));
+    bifit_identifier_t class_identifier;
     bifit_load_identifier_by_name_index(
             class_reference_entry.name_index,
             stack_frame->current_class->constant_pool.entries,

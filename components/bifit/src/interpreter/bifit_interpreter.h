@@ -19,7 +19,7 @@ static bool bifit_dont_die_on_unknown_opcode = true;
 static bool bifit_dont_die_on_unknown_opcode = false;
 #endif
 
-void bifit_execute_current_stack_frame_in_context(bifit_context_t *context) {
+void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context) {
     BIFIT_LOG_DEBUG("bifit_execute_stack_frame\n");
     bifit_stack_frame_t *stack_frame = bifit_stack_peek(&(context->frame_stack));
 

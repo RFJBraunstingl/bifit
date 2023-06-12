@@ -68,7 +68,8 @@ unsigned int bifit_execute_instruction_invokestatic(
         BIFIT_KERNEL_PANIC("no such method error!");
     }
 
-    bifit_stack_frame_t *invoked_stack_frame = bifit_allocate_stack_frame(context, bifit_class, bifit_method);
+    bifit_stack_frame_t *invoked_stack_frame = bifit_interpreter_allocate_stack_frame(context, bifit_class,
+                                                                                      bifit_method);
 
     // TODO: should pop operands as of method descriptor
     bifit_operand_t *top_operand = bifit_stack_pop(&(stack_frame->operand_stack));
@@ -76,10 +77,10 @@ unsigned int bifit_execute_instruction_invokestatic(
 
     invoked_stack_frame->local_variable_array[0].object_reference = obj_ref;
 
-    bifit_execute_current_stack_frame_in_context(context);
+    bifit_interpreter_execute_current_stack_frame(context);
 
     // after execution of the new stack frame, free all resources
-    bifit_stack_pop(&(context->frame_stack));
+    bifit_interpreter_deallocate_current_stack_frame(context);
 
     return pc;
 }

@@ -3,9 +3,10 @@
 
 #include "bifit_operand_stack.h"
 
-void bifit_execute_current_stack_frame_in_context(bifit_context_t *context);
+void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context);
 
-bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
+bifit_stack_frame_t *
+bifit_interpreter_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
 
     bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));
     new_stack_frame->current_class = clazz;
@@ -21,6 +22,20 @@ bifit_stack_frame_t *bifit_allocate_stack_frame(bifit_context_t *context, bifit_
 
 
     return new_stack_frame;
+}
+
+void bifit_interpreter_free_stack_frame(bifit_stack_frame_t *stack_frame) {
+
+    free(stack_frame->local_variable_array);
+    free(stack_frame);
+}
+
+void bifit_interpreter_deallocate_current_stack_frame(bifit_context_t *context) {
+    bifit_interpreter_free_stack_frame(
+            bifit_stack_pop(
+                    &(context->frame_stack)
+            )
+    );
 }
 
 #endif

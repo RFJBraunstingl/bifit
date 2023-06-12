@@ -78,14 +78,14 @@ void bifit_run() {
     BIFIT_LOG_DEBUG("\n\nmain class found: %s\n\n", bifit_main_class_identifier);
 
     // construct main frame
-    bifit_allocate_stack_frame(
+    bifit_interpreter_allocate_stack_frame(
             context,
             main_class,
             bifit_find_main_method_in_class(main_class)
     );
 
     BIFIT_LOG_DEBUG("start executing main...\n\n");
-    bifit_execute_current_stack_frame_in_context(context);
+    bifit_interpreter_execute_current_stack_frame(context);
 }
 
 #endif
