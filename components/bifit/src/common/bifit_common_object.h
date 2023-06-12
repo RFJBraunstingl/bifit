@@ -14,7 +14,7 @@ typedef struct bifit_object_node {
 
 } bifit_object_node_t;
 
-static unsigned int object_reference_counter = 0;
+static unsigned int bifit_object_counter = 0;
 static bifit_object_node_t *bifit_object_register = NULL;
 
 bifit_object_t *bifit_create_object() {
@@ -24,7 +24,7 @@ bifit_object_t *bifit_create_object() {
     }
 
     // init reference
-    new_object->reference.id = (++object_reference_counter);
+    new_object->reference.id = (++bifit_object_counter);
 
     bifit_object_node_t *register_node = malloc(sizeof(struct bifit_object_node));
     register_node->object = new_object;

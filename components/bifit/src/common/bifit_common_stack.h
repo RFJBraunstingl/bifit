@@ -59,13 +59,15 @@ void *bifit_stack_pop(bifit_stack_t *stack) {
         BIFIT_KERNEL_PANIC("ERROR: stack was empty - can not pop\n")
     } else {
         bifit_stack_element_t *ref = stack->top;
+        void *data = ref->data;
         stack->top = stack->top->prev;
 
         if (stack->top != NULL) {
             stack->top->next = NULL;
         }
 
-        return ref->data;
+        free(ref);
+        return data;
     }
 }
 

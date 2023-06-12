@@ -142,7 +142,7 @@ void bifit_resolved_static_reference_put(
     while (p->next != NULL) {
         p = p->next;
     }
-    printf("test 6\n");
+
     p->next = new_node;
 }
 
