@@ -35,4 +35,6 @@ void bifit_log_debug_printf_stub(const char *str, ...) {}
 
 #include "types/bifit_types.h"
 
+bifit_context_t *bifit_context;
+
 #endif

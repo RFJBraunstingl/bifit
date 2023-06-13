@@ -11,6 +11,7 @@ typedef struct bifit_object_node {
 
     bifit_object_t *object;
     struct bifit_object_node *next;
+    bool marked;
 
 } bifit_object_node_t;
 
@@ -42,7 +43,7 @@ long bifit_object_cmp_reference(
     return left->id - right->id;
 }
 
-bifit_object_t *bifit_object_get(bifit_object_reference_t *reference) {
+bifit_object_node_t *bifit_object_get_node(bifit_object_reference_t *reference) {
     bifit_object_node_t *p = bifit_object_register;
     while (p != NULL) {
         if (bifit_object_cmp_reference(
@@ -50,13 +51,22 @@ bifit_object_t *bifit_object_get(bifit_object_reference_t *reference) {
                 reference
         ) == 0) {
 
-            return p->object;
+            return p;
         }
 
         p = p->next;
     }
 
     return NULL;
+}
+
+bifit_object_t *bifit_object_get(bifit_object_reference_t *reference) {
+    bifit_object_node_t *p = bifit_object_get_node(reference);
+    if (p == NULL) {
+        return NULL;
+    }
+
+    return p->object;
 }
 
 #endif //BIFIT_BIFIT_COMMON_OBJECT_H

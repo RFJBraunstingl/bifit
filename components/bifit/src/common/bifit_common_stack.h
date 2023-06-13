@@ -79,4 +79,15 @@ void *bifit_stack_peek_second(bifit_stack_t *stack) {
     return stack->top->prev->data;
 }
 
+void bifit_stack_traverse_top_to_bottom(
+        bifit_stack_t *stack,
+        void (*fun)(void*)) {
+
+    bifit_stack_element_t *p = stack->top;
+    while (p != NULL) {
+        fun(p->data);
+        p = p->prev;
+    }
+}
+
 #endif

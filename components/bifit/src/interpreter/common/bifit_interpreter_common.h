@@ -5,8 +5,7 @@
 
 void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context);
 
-bifit_stack_frame_t *
-bifit_interpreter_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
+bifit_stack_frame_t *bifit_interpreter_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
 
     bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));
     new_stack_frame->current_class = clazz;

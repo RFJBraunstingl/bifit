@@ -53,25 +53,23 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
     exit(1);
 }
 
-bifit_context_t *bifit_initialize_context() {
-    bifit_context_t *ctx = malloc(sizeof(struct bifit_context));
-    ctx->class_list = NULL;
-    ctx->class_list_size = 0;
-    ctx->resolved_static_references = NULL;
+void bifit_initialize_context() {
+    bifit_context = malloc(sizeof(struct bifit_context));
+    bifit_context->class_list = NULL;
+    bifit_context->class_list_size = 0;
+    bifit_context->resolved_static_references = NULL;
 
-    bifit_native_bind(ctx);
-
-    return ctx;
+    bifit_native_bind(bifit_context);
 }
 
 void bifit_run() {
 
-    bifit_context_t *context = bifit_initialize_context();
-    bifit_load_embedded_classes(context);
+    bifit_initialize_context();
+    bifit_load_embedded_classes(bifit_context);
     BIFIT_LOG_DEBUG("classes loaded!\n");
 
     bifit_class_t *main_class = bifit_find_class_by_name(
-            context,
+            bifit_context,
             bifit_main_class_identifier
     );
 
@@ -79,13 +77,13 @@ void bifit_run() {
 
     // construct main frame
     bifit_interpreter_allocate_stack_frame(
-            context,
+            bifit_context,
             main_class,
             bifit_find_main_method_in_class(main_class)
     );
 
     BIFIT_LOG_DEBUG("start executing main...\n\n");
-    bifit_interpreter_execute_current_stack_frame(context);
+    bifit_interpreter_execute_current_stack_frame(bifit_context);
 }
 
 #endif
