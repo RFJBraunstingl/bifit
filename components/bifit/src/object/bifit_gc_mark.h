@@ -47,8 +47,16 @@ void bifit_gc_mark_reachable_from_local_variables(bifit_stack_frame_t *stack_fra
     }
 }
 
+void bifit_gc_mark_reachable_from_operand(void *data) {
+    bifit_operand_t *operand = data;
+    bifit_gc_mark_reachable_from_object_reference(operand->object_reference);
+}
+
 void bifit_gc_mark_reachable_from_operand_stack(bifit_stack_frame_t *stack_frame) {
-    stack_frame->operand_stack
+    bifit_stack_traverse_top_to_bottom(
+            &(stack_frame->operand_stack),
+            &(bifit_gc_mark_reachable_from_operand)
+    );
 }
 
 void bifit_gc_mark_reachable_from_stack_frame(void *p) {
