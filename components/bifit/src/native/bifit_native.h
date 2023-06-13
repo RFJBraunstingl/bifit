@@ -14,7 +14,7 @@ void bifit_native_bind(bifit_context_t *context) {
 
     /* static fields */
     // System.out
-    system_out = bifit_create_object();
+    system_out = bifit_object_create();
     bifit_resolved_static_reference_put(
             context,
             bifit_identifier_from_string("java/lang/System", 16),

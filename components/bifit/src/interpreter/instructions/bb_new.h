@@ -42,7 +42,7 @@ bifit_execute_instruction_new(unsigned int pc, bifit_stack_frame_t *stack_frame,
     );
 
     BIFIT_LOG_DEBUG("create new object reference for class\n");
-    bifit_object_t *new_object = bifit_create_object();
+    bifit_object_t *new_object = bifit_object_create();
     new_object->object_class = bifit_class;
 
     BIFIT_LOG_DEBUG("push reference onto operand stack\n");

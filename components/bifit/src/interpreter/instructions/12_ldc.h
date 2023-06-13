@@ -32,7 +32,7 @@ unsigned int bifit_execute_instruction_ldc(unsigned int pc, bifit_stack_frame_t 
     bifit_constant_pool_entry_t utf8_entry =
             stack_frame->current_class->constant_pool.entries[string_index - 1];
 
-    bifit_object_t *string_object = bifit_create_object();
+    bifit_object_t *string_object = bifit_object_create();
     string_object->meta = bifit_native_class_String_wrap(
             utf8_entry.utf8_str,
             utf8_entry.utf8_str_len

@@ -11,6 +11,7 @@ typedef struct bifit_object_node {
 
     bifit_object_t *object;
     struct bifit_object_node *next;
+    struct bifit_object_node *prev;
     bool marked;
 
 } bifit_object_node_t;
@@ -18,7 +19,7 @@ typedef struct bifit_object_node {
 static unsigned int bifit_object_counter = 0;
 static bifit_object_node_t *bifit_object_register = NULL;
 
-bifit_object_t *bifit_create_object() {
+bifit_object_t *bifit_object_create() {
     bifit_object_t *new_object = malloc(sizeof(struct bifit_object));
     if (new_object == NULL) {
         BIFIT_KERNEL_PANIC("ERROR: OutOfMemory")
@@ -30,7 +31,11 @@ bifit_object_t *bifit_create_object() {
     bifit_object_node_t *register_node = malloc(sizeof(struct bifit_object_node));
     register_node->object = new_object;
     register_node->next = bifit_object_register;
+    register_node->prev = NULL;
 
+    if (bifit_object_register != NULL) {
+        bifit_object_register->prev = register_node;
+    }
     bifit_object_register = register_node;
 
     return new_object;
@@ -67,6 +72,22 @@ bifit_object_t *bifit_object_get(bifit_object_reference_t *reference) {
     }
 
     return p->object;
+}
+
+void bifit_object_node_destroy(bifit_object_node_t *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    if (node->prev != NULL) {
+        node->prev->next = node->next;
+    }
+    if (node->next != NULL) {
+        node->next->prev = node->prev;
+    }
+
+    free(node->object);
+    free(node);
 }
 
 #endif //BIFIT_BIFIT_COMMON_OBJECT_H
