@@ -137,10 +137,11 @@ void bifit_load_method_code(bifit_method_t *method) {
             BIFIT_LOG_DEBUG("code_length: %d\n", out->byte_code_length);
             out->byte_code = &attr.data[8];
 
-            // if PRINT_BYTE_CODE
+            #ifdef BIFIT_CONFIG_PRINT_METHOD_BYTE_CODE
             for (int j = 0; j < out->byte_code_length; ++j) {
-                // BIFIT_LOG_DEBUG("0x%02x\n", out->byte_code[j]);
+                BIFIT_LOG_DEBUG("0x%02x\n", out->byte_code[j]);
             }
+            #endif
 
             unsigned int attr_data_index = 8 + out->byte_code_length;
             BIFIT_LOG_DEBUG("attr_data_index: %d\n", attr_data_index);

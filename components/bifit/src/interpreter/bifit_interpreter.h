@@ -36,6 +36,10 @@ void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context) {
 
         switch (code[pc]) {
 
+            case 0x00:
+                // nop
+                break;
+
             case 0x12:
                 pc = bifit_execute_instruction_ldc(pc, stack_frame);
                 break;
