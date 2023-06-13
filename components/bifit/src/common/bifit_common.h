@@ -61,44 +61,20 @@ bifit_class_t *bifit_find_class_by_identifier(bifit_context_t *context, bifit_id
 
     bifit_identifier_t *lookup_identifier = identifier;
 
-    // prefix 'java/' is ignored
-    // (thus we can inject our own system classes)
-    if (identifier->identifier_length > 5 &&
-        'j' == identifier->identifier[0] &&
-        'a' == identifier->identifier[1] &&
-        'v' == identifier->identifier[2] &&
-        'a' == identifier->identifier[3] &&
-        '/' == identifier->identifier[4]) {
+    for (int i = 0; i < context->class_list_size; ++i) {
+        if (bifit_identifier_matches_identifier(
+                &(context->class_list[i].this_class),
+                lookup_identifier)) {
 
-        BIFIT_LOG_DEBUG("find class special case - java/ prefix is ignored!\n");
-        bifit_identifier_t *temp = malloc(sizeof(struct bifit_identifier));
-        bifit_copy_identifier(identifier, temp);
-
-        temp->identifier = &temp->identifier[5];
-        temp->identifier_length -= 5;
-
-        bifit_class_t *result = bifit_find_class_by_identifier(context, temp);
-        free(temp);
-
-        return result;
-
-    } else {
-
-        for (int i = 0; i < context->class_list_size; ++i) {
-            if (bifit_identifier_matches_identifier(
-                    &(context->class_list[i].this_class),
-                    lookup_identifier)) {
-
-                return &context->class_list[i];
-            }
+            return &context->class_list[i];
         }
-
-        BIFIT_LOG_ERROR("class not found error: ");
-        bifit_log_bifit_identifier(identifier);
-        BIFIT_LOG_ERROR("\n");
-
-        BIFIT_KERNEL_PANIC("class def not found error!");
     }
+
+    BIFIT_LOG_ERROR("class not found error: ");
+    bifit_log_bifit_identifier(identifier);
+    BIFIT_LOG_ERROR("\n");
+
+    BIFIT_KERNEL_PANIC("class def not found error!");
 }
 
 bifit_object_reference_t *bifit_resolved_static_reference_get(
