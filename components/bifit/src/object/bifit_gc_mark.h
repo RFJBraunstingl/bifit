@@ -35,8 +35,14 @@ void bifit_gc_mark_reachable_from_object_reference(bifit_object_reference_t *obj
     }
 
     // currently there are no objects referencing each other, thus we can just mark the given object
-    bifit_object_node_t *p = bifit_object_get_node(object_reference);
-    p->marked = true;
+    bifit_object_node_t *p = bifit_object_register;
+    while (p != NULL) {
+        if (p->object->reference.id == object_reference->id) {
+            p->marked = true;
+        }
+
+        p = p->next;
+    }
 }
 
 void bifit_gc_mark_reachable_from_local_variables(bifit_stack_frame_t *stack_frame) {
