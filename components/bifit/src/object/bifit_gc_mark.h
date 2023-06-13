@@ -72,9 +72,18 @@ void bifit_gc_mark_reachable_from_stack(bifit_context_t *context) {
     );
 }
 
+void bifit_gc_mark_static_vars(bifit_context_t *context) {
+    bifit_resolved_static_reference_node_t *p = context->resolved_static_references;
+    while (p != NULL) {
+        bifit_gc_mark_reachable_from_object_reference(p->reference);
+        p = p->next;
+    }
+}
+
 void bifit_gc_mark() {
     bifit_gc_clear_all_marks(bifit_object_register);
     bifit_gc_mark_reachable_from_stack(bifit_context);
+    bifit_gc_mark_static_vars(bifit_context);
 }
 
 #endif //BIFIT_BIFIT_GC_MARK_H

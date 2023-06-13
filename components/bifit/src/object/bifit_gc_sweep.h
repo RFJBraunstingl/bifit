@@ -12,13 +12,18 @@ void bifit_object_node_destroy(bifit_object_node_t *node) {
         return;
     }
 
-    if (node->prev != NULL) {
+    if (node->prev == NULL) {
+        bifit_object_register = node->next;
+    } else {
         node->prev->next = node->next;
     }
     if (node->next != NULL) {
         node->next->prev = node->prev;
     }
 
+    if (node->object->meta != NULL) {
+        free(node->object->meta);
+    }
     free(node->object);
     free(node);
 }
