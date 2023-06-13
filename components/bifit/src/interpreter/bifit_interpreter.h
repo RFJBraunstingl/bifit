@@ -38,6 +38,7 @@ void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context) {
 
             case 0x00:
                 // nop
+                BIFIT_LOG_DEBUG("no op\n");
                 break;
 
             case 0x12:

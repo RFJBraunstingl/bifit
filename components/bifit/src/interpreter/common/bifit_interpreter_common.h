@@ -38,4 +38,33 @@ void bifit_interpreter_deallocate_current_stack_frame(bifit_context_t *context) 
     );
 }
 
+/**
+ * Parse a method descriptor in order to get the number of values
+ * on the operand stack which should be passes to the called method
+ * as arguments
+ * 
+ * @param method_descriptor
+ *  i.e.: (Ljava/lang/Class;[Ljava/lang/String;)V
+ * @return
+ *  the number of arguments as uint8_t
+ */
+uint8_t bifit_interpreter_count_arguments(bifit_identifier_t *method_descriptor) {
+    uint8_t result = 0;
+    // start at 1 as first character is a '('
+    for (int i = 1; i < method_descriptor->identifier_length; ++i) {
+
+        uint8_t current_char = method_descriptor->identifier[i];
+
+        if (current_char == ')') {
+            break;
+        }
+        
+        // we assume every argument is ended by a ';'
+        if (current_char == ';') {
+            result++;
+        }
+    }
+    return result;
+}
+
 #endif
