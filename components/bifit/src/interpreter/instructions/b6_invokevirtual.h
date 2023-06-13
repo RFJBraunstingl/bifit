@@ -68,13 +68,20 @@ unsigned int bifit_execute_instruction_invokevirtual(
         BIFIT_KERNEL_PANIC("no such method error!");
     }
 
-    bifit_stack_frame_t *invoked_stack_frame = bifit_interpreter_allocate_stack_frame(context, bifit_class,
-                                                                                      bifit_method);
+    bifit_stack_frame_t *invoked_stack_frame = bifit_interpreter_allocate_stack_frame(
+            context,
+            bifit_class,
+            bifit_method
+    );
 
-    bifit_operand_t *top_operand = bifit_stack_pop(&(stack_frame->operand_stack));
-    bifit_object_reference_t *obj_ref = top_operand->object_reference;
-
-    invoked_stack_frame->local_variable_array[0].object_reference = obj_ref;
+    uint8_t number_of_arguments = bifit_interpreter_count_arguments(&(bifit_method->descriptor));
+    // for invokevirtual, the first argument is the reference to 'this'
+    number_of_arguments++;
+    for (int i = (number_of_arguments - 1); i >= 0; --i) {
+        // note: currently we only support object references
+        bifit_object_reference_t *reference = bifit_operand_stack_pop_reference(&(stack_frame->operand_stack));
+        invoked_stack_frame->local_variable_array[i].object_reference = reference;
+    }
 
     bifit_interpreter_execute_current_stack_frame(context);
 
