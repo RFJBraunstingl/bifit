@@ -19,6 +19,7 @@ void bifit_load_interfaces(unsigned int start_index, const uint8_t data[], bifit
                 out->constant_pool.entries,
                 &out->interfaces.identifiers[i]
         );
+        byte_index += 2;
     }
 
     out->interfaces.size_in_bytes = byte_index - start_index;
