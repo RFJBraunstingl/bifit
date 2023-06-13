@@ -15,19 +15,6 @@ void bifit_gc_clear_all_marks(bifit_object_node_t *object_register) {
     }
 }
 
-bifit_object_node_t *bifit_object_get_node(bifit_object_reference_t *reference) {
-    bifit_object_node_t *p = bifit_object_register;
-    while (p != NULL) {
-        if (p->object->reference.id == reference->id) {
-            return p;
-        }
-
-        p = p->next;
-    }
-
-    return NULL;
-}
-
 void bifit_gc_mark_reachable_from_object_reference(bifit_object_reference_t *object_reference) {
 
     if (object_reference == NULL) {
