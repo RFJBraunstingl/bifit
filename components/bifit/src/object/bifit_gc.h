@@ -5,7 +5,6 @@
 #ifndef BIFIT_BIFIT_GC_H
 #define BIFIT_BIFIT_GC_H
 
-#include "bifit_gc_common.h"
 #include "bifit_gc_mark.h"
 #include "bifit_gc_sweep.h"
 

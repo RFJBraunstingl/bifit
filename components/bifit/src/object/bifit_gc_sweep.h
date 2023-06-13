@@ -5,7 +5,23 @@
 #ifndef BIFIT_BIFIT_GC_SWEEP_H
 #define BIFIT_BIFIT_GC_SWEEP_H
 
-#include "bifit_gc_common.h"
+#include "bifit_object.h"
+
+void bifit_object_node_destroy(bifit_object_node_t *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    if (node->prev != NULL) {
+        node->prev->next = node->next;
+    }
+    if (node->next != NULL) {
+        node->next->prev = node->prev;
+    }
+
+    free(node->object);
+    free(node);
+}
 
 void bifit_gc_sweep() {
     bifit_object_node_t *p = bifit_object_register;

@@ -5,7 +5,7 @@
 #ifndef BIFIT_BIFIT_GC_MARK_H
 #define BIFIT_BIFIT_GC_MARK_H
 
-#include "bifit_gc_common.h"
+#include "bifit_object.h"
 
 void bifit_gc_clear_all_marks(bifit_object_node_t *object_register) {
     bifit_object_node_t *p = object_register;
@@ -15,7 +15,24 @@ void bifit_gc_clear_all_marks(bifit_object_node_t *object_register) {
     }
 }
 
+bifit_object_node_t *bifit_object_get_node(bifit_object_reference_t *reference) {
+    bifit_object_node_t *p = bifit_object_register;
+    while (p != NULL) {
+        if (p->object->reference.id == reference->id) {
+            return p;
+        }
+
+        p = p->next;
+    }
+
+    return NULL;
+}
+
 void bifit_gc_mark_reachable_from_object_reference(bifit_object_reference_t *object_reference) {
+
+    if (object_reference == NULL) {
+        return;
+    }
 
     // currently there are no objects referencing each other, thus we can just mark the given object
     bifit_object_node_t *p = bifit_object_get_node(object_reference);
@@ -23,7 +40,7 @@ void bifit_gc_mark_reachable_from_object_reference(bifit_object_reference_t *obj
 }
 
 void bifit_gc_mark_reachable_from_local_variables(bifit_stack_frame_t *stack_frame) {
-    int number_of_local_vars = stack_frame->current_method->code.max_locals;
+    unsigned int number_of_local_vars = stack_frame->current_method->code.max_locals;
     for (int i = 0; i < number_of_local_vars; ++i) {
         bifit_object_reference_t *current_reference = stack_frame->local_variable_array[i].object_reference;
         bifit_gc_mark_reachable_from_object_reference(current_reference);
@@ -31,7 +48,7 @@ void bifit_gc_mark_reachable_from_local_variables(bifit_stack_frame_t *stack_fra
 }
 
 void bifit_gc_mark_reachable_from_operand_stack(bifit_stack_frame_t *stack_frame) {
-
+    stack_frame->operand_stack
 }
 
 void bifit_gc_mark_reachable_from_stack_frame(void *p) {
