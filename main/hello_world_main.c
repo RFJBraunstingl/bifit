@@ -19,7 +19,8 @@
 #include "bifit.h"
 
 void print_heap_usage() {
-        printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+        //printf("esp_get_minimum_free_heap_size: %d bytes\n", esp_get_minimum_free_heap_size());
+        printf("heap_caps_get_free_size: %d bytes\n", heap_caps_get_free_size(MALLOC_CAP_DEFAULT));
 }
 
 void periodically_print_heap_usage() {
@@ -47,6 +48,14 @@ void periodically_print_heap_usage() {
         ESP_LOGI("main", "heap ticker started!");
 }
 
+void create_bifit_task() {
+
+    ESP_LOGI("main", "running bifit...");
+    
+    TaskHandle_t taskHandle = NULL;
+    xTaskCreate(bifit_run, "bifit main task", 4096, NULL, tskIDLE_PRIORITY, &taskHandle);
+}
+
 void app_main(void)
 {
     /* Print chip information */
@@ -66,9 +75,7 @@ void app_main(void)
     print_heap_usage();
     periodically_print_heap_usage();
 
-    printf("\n\n\n\n");
-    printf("running bifit...\n");
-    bifit_run();
+    create_bifit_task();
 
     // for (int i = 10; i >= 0; i--) {
     //     printf("Restarting in %d seconds...\n", i);
