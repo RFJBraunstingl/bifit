@@ -15,12 +15,14 @@
 #include <esp_system.h>
 
 // #define BIFIT_CONFIG_ENABLE_DEBUG_LOGGING
+// #define BIFIT_CONFIG_ENABLE_DEBUG_GC
+// #define BIFIT_CONFIG_ENABLE_LOG_GC
+// #define PRINT_HEAP_USAGE
 
 #include "bifit.h"
 
 void print_heap_usage() {
-        //printf("esp_get_minimum_free_heap_size: %d bytes\n", esp_get_minimum_free_heap_size());
-        printf("heap_caps_get_free_size: %d bytes\n", heap_caps_get_free_size(MALLOC_CAP_DEFAULT));
+        printf("free heap in bytes: %d\n", heap_caps_get_free_size(MALLOC_CAP_DEFAULT));
 }
 
 void periodically_print_heap_usage() {
@@ -72,8 +74,10 @@ void app_main(void)
     printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
+    #ifdef PRINT_HEAP_USAGE
     print_heap_usage();
     periodically_print_heap_usage();
+    #endif
 
     create_bifit_task();
 

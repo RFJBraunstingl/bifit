@@ -12,7 +12,14 @@ void bifit_log_debug_printf_stub(const char *str, ...) {}
 #define BIFIT_DEBUG_GC printf
 #else
 void bifit_log_debug_gc_stub(const char *str, ...) {}
-#define BIFIT_DEBUG_GC bifit_log_debug_printf_stub
+#define BIFIT_DEBUG_GC bifit_log_debug_gc_stub
+#endif
+
+#ifdef BIFIT_CONFIG_ENABLE_LOG_GC
+#define BIFIT_LOG_GC printf
+#else
+void bifit_log_debug_log_gc_stub(const char *str, ...) {}
+#define BIFIT_LOG_GC bifit_log_debug_log_gc_stub
 #endif
 
 #define BIFIT_LOG_ERROR printf

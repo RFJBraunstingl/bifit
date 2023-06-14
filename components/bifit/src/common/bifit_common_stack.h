@@ -59,7 +59,7 @@ void *bifit_stack_pop(bifit_stack_t *stack) {
             stack->top->next = NULL;
         }
 
-        printf("free 10 %p\n", ref);
+        BIFIT_DEBUG_GC("free 10 %p\n", ref);
         free(ref);
         return data;
     }

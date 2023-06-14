@@ -50,7 +50,7 @@ void bifit_gc_sweep() {
         ++counter;
         p = p->next;
     }
-    printf("after sweeping, %d objects remain\n", counter);    
+    BIFIT_LOG_GC("after sweeping, %d objects remain\n", counter);
 }
 
 #endif //BIFIT_BIFIT_GC_SWEEP_H
