@@ -29,14 +29,6 @@ bifit_stack_element_t *bifit_stack_create_element_with_data(void *data) {
     return element;
 }
 
-bifit_stack_element_t *bifit_stack_create_element() {
-    return bifit_stack_create_element_with_data(NULL);
-}
-
-bifit_stack_element_t *bifit_stack_duplicate_element(bifit_stack_element_t *template) {
-    return bifit_stack_create_element_with_data(template->data);
-}
-
 void bifit_stack_push(bifit_stack_t *stack, void *data) {
     bifit_stack_element_t *element = bifit_stack_create_element_with_data(data);
     if (stack->top == NULL) {
@@ -60,7 +52,7 @@ void *bifit_stack_pop(bifit_stack_t *stack) {
     } else {
         bifit_stack_element_t *ref = stack->top;
         void *data = ref->data;
-        stack->top = stack->top->prev;
+        stack->top = ref->prev;
 
         if (stack->top != NULL) {
             stack->top->next = NULL;

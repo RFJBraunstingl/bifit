@@ -48,8 +48,6 @@ typedef struct bifit_object {
     bifit_object_reference_t reference;
     bifit_class_t *object_class;
 
-    // to test garbage collection
-    int garbage[1024 * 1024 * 1024];
     void *meta;
 
 } bifit_object_t;
