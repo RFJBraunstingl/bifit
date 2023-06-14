@@ -24,6 +24,7 @@ bifit_object_t *bifit_object_create() {
 
     // init reference
     new_object->reference.id = (++bifit_object_counter);
+    new_object->meta = NULL;
     if (bifit_object_counter % OBJECT_CREATIONS_UNTIL_GC == 0) {
         bifit_gc_run();
     }

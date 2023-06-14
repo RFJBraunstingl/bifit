@@ -58,6 +58,7 @@ void bifit_initialize_context() {
     bifit_context->class_list = NULL;
     bifit_context->class_list_size = 0;
     bifit_context->resolved_static_references = NULL;
+    bifit_context->frame_stack.top = NULL;
 
     bifit_native_bind(bifit_context);
 }
