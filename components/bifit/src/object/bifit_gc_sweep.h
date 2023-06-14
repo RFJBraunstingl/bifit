@@ -39,6 +39,15 @@ void bifit_gc_sweep() {
 
         p = next;
     }
+
+    p = bifit_object_register;
+    int counter = 0;
+    while (p != NULL)
+    {
+        ++counter;
+        p = p->next;
+    }
+    printf("after sweeping, %d objects remain\n", counter);    
 }
 
 #endif //BIFIT_BIFIT_GC_SWEEP_H
