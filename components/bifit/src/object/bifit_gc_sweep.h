@@ -22,9 +22,12 @@ void bifit_object_node_destroy(bifit_object_node_t *node) {
     }
 
     if (node->object->meta != NULL) {
+        BIFIT_DEBUG_GC("free 19 %p\n", node->object->meta);
         free(node->object->meta);
     }
+    BIFIT_DEBUG_GC("free 22 %p\n", node->object);
     free(node->object);
+    BIFIT_DEBUG_GC("free 24 %p\n", node);
     free(node);
 }
 

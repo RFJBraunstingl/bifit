@@ -31,6 +31,7 @@ bifit_native_class_t *bifit_native_class_PrintStream_init() {
     );
 
     bifit_native_class_t *clazz = malloc(sizeof(struct bifit_native_class));
+    BIFIT_DEBUG_GC("malloc 18 %p\n", clazz);
     clazz->identifier = identifier;
     clazz->methods = NULL;
 

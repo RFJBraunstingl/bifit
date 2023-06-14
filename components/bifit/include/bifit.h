@@ -55,6 +55,7 @@ bifit_method_t *bifit_find_main_method_in_class(bifit_class_t *clazz) {
 
 void bifit_initialize_context() {
     bifit_context = malloc(sizeof(struct bifit_context));
+    BIFIT_DEBUG_GC("malloc 2 %p\n", bifit_context);
     bifit_context->class_list = NULL;
     bifit_context->class_list_size = 0;
     bifit_context->resolved_static_references = NULL;

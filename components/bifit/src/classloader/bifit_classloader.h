@@ -15,6 +15,7 @@ void bifit_load_embedded_classes(bifit_context_t *context) {
     unsigned int number_of_classes = bifit_embedded_class_files_size;
 
     bifit_class_t *classes = malloc(sizeof(struct bifit_class) * number_of_classes);
+    BIFIT_DEBUG_GC("malloc 3 %p\n", classes);
 
     for (int i = 0; i < number_of_classes; i++) {
         uint8_t *class_file = bifit_embedded_class_files[i];

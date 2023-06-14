@@ -8,6 +8,8 @@ void bifit_interpreter_execute_current_stack_frame(bifit_context_t *context);
 bifit_stack_frame_t *bifit_interpreter_allocate_stack_frame(bifit_context_t *context, bifit_class_t *clazz, bifit_method_t *method) {
 
     bifit_stack_frame_t *new_stack_frame = malloc(sizeof(struct bifit_stack_frame));
+    BIFIT_DEBUG_GC("malloc 12 %p\n", new_stack_frame);
+
     new_stack_frame->current_class = clazz;
     new_stack_frame->current_method = method;
 
@@ -15,6 +17,7 @@ bifit_stack_frame_t *bifit_interpreter_allocate_stack_frame(bifit_context_t *con
     new_stack_frame->local_variable_array = malloc(
             sizeof(struct bifit_local_variable) * method->code.max_locals
     );
+    BIFIT_DEBUG_GC("malloc 13 %p\n", new_stack_frame->local_variable_array);
 
     BIFIT_LOG_DEBUG("allocation done - pushing frame onto stack\n");
     bifit_stack_push(&(context->frame_stack), new_stack_frame);
@@ -25,7 +28,15 @@ bifit_stack_frame_t *bifit_interpreter_allocate_stack_frame(bifit_context_t *con
 
 void bifit_interpreter_free_stack_frame(bifit_stack_frame_t *stack_frame) {
 
+    BIFIT_DEBUG_GC("free 13 %p\n", stack_frame->local_variable_array);
     free(stack_frame->local_variable_array);
+    
+    while (stack_frame->operand_stack.top != NULL) {
+        BIFIT_DEBUG_GC("deallocate remaining opstack\n");
+        bifit_operand_stack_pop_reference(&(stack_frame->operand_stack));
+    }
+
+    BIFIT_DEBUG_GC("free 12 %p\n", stack_frame);
     free(stack_frame);
 }
 

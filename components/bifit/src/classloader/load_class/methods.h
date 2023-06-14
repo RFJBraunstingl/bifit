@@ -17,6 +17,7 @@ void bifit_load_methods(unsigned int start_index, const uint8_t *data, bifit_con
     index += 2;
 
     out->method_array = malloc(sizeof(struct bifit_method) * out->method_count);
+    BIFIT_DEBUG_GC("malloc 6 %p\n", out->method_array);
 
     for (int i = 0; i < out->method_count; ++i) {
         index = bifit_load_method(index, data, entries, &(out->method_array[i]));
@@ -63,6 +64,7 @@ unsigned int bifit_load_method(unsigned int index, const uint8_t *data, bifit_co
 
     // TODO: unify with field attributes
     out->attributes = malloc(sizeof(struct bifit_attribute) * out->attributes_count);
+    printf("malloc 7 %p\n", out->attributes);
 
     for (int i = 0; i < out->attributes_count; ++i) {
         index = bifit_load_attribute(index, data, entries, &(out->attributes[i]));

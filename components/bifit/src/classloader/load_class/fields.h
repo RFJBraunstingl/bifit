@@ -13,7 +13,7 @@ void bifit_load_fields(unsigned int start_index, const uint8_t *data, bifit_clas
     index += 2;
 
     out->fields.field_array = malloc(sizeof(struct bifit_field) * out->fields.field_count);
-
+    BIFIT_DEBUG_GC("malloc 4 %p\n", out->fields.field_array);
     for (int i = 0; i < out->fields.field_count; ++i) {
         index = bifit_load_next_field(index, data, out->constant_pool.entries, &out->fields.field_array[i]);
     }
@@ -47,6 +47,7 @@ unsigned int bifit_load_next_field(unsigned int index, const uint8_t *data, bifi
     index += 2;
 
     out->attributes = malloc(sizeof(struct bifit_attribute) * out->attributes_count);
+    printf("malloc %p\n", out->attributes);
     for (int i = 0; i < out->attributes_count; ++i) {
         index = bifit_load_attribute(index, data, entries, &out->attributes[i]);
     }

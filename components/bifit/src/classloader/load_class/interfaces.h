@@ -11,6 +11,7 @@ void bifit_load_interfaces(unsigned int start_index, const uint8_t data[], bifit
     out->interfaces.identifiers = malloc(
             sizeof(struct bifit_identifier) * out->interfaces.interface_count
     );
+    BIFIT_DEBUG_GC("malloc 5 %p\n", out->interfaces.identifiers);
 
     for (int i = 0; i < out->interfaces.interface_count; ++i) {
         bifit_load_class_identifier(

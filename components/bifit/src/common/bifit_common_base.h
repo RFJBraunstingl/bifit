@@ -7,6 +7,14 @@
 void bifit_log_debug_printf_stub(const char *str, ...) {}
 #define BIFIT_LOG_DEBUG bifit_log_debug_printf_stub
 #endif
+
+#ifdef BIFIT_CONFIG_ENABLE_DEBUG_GC
+#define BIFIT_DEBUG_GC printf
+#else
+void bifit_log_debug_gc_stub(const char *str, ...) {}
+#define BIFIT_DEBUG_GC bifit_log_debug_printf_stub
+#endif
+
 #define BIFIT_LOG_ERROR printf
 #define BIFIT_KERNEL_PANIC(msg) printf("PANIC: %s\n\nsystem will shut down.\n", msg); exit(1);
 

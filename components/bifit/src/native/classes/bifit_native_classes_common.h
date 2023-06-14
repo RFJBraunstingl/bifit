@@ -13,10 +13,13 @@ void bifit_native_class_register_method(
         void (*impl)(bifit_context_t *)
 ) {
     bifit_native_method_t *method = malloc(sizeof(struct bifit_native_method));
+    printf("malloc 15 %p\n", method);
+
     method->name = method_identifier;
     method->impl = impl;
 
     bifit_native_method_node_t *node = malloc(sizeof(struct bifit_native_method_node));
+    printf("malloc 16 %p\n", node);
     node->method = method;
     node->next = NULL;
 
@@ -36,6 +39,7 @@ static bifit_native_class_node_t *bifit_native_classes = NULL;
 
 void bifit_native_classes_put(bifit_native_class_t *clazz) {
     bifit_native_class_node_t *node = malloc(sizeof(struct bifit_native_class));
+    printf("malloc 17 %p\n", node);
     node->clazz = clazz;
     node->next = NULL;
 

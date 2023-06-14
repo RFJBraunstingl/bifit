@@ -67,9 +67,11 @@ bool bifit_identifier_matches_identifier(bifit_identifier_t *left, bifit_identif
 bifit_identifier_t *bifit_identifier_from_string(const char *str, unsigned long len) {
 
     uint8_t *identifier = malloc(sizeof(uint8_t) * len);
+    BIFIT_DEBUG_GC("malloc 8 %p\n", identifier);
     memcpy(identifier, str, len);
 
     bifit_identifier_t *result = malloc(sizeof(struct bifit_identifier));
+    BIFIT_DEBUG_GC("malloc 9 %p\n", result);
     result->identifier = identifier;
     result->identifier_length = len;
 

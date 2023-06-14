@@ -8,15 +8,17 @@
 #include "bifit_object_common.h"
 #include "bifit_gc.h"
 
-#define OBJECT_CREATIONS_UNTIL_GC 50
+#define OBJECT_CREATIONS_UNTIL_GC 100
 
 bifit_object_t *bifit_object_create() {
     bifit_object_t *new_object = malloc(sizeof(struct bifit_object));
+    BIFIT_DEBUG_GC("malloc 22 %p\n", new_object);
     if (new_object == NULL) {
         // if there is no more heap space, make one attempt at fixing this via gc
         bifit_gc_run();
 
         new_object = malloc(sizeof(struct bifit_object));
+        BIFIT_DEBUG_GC("malloc 23 %p\n", new_object);
         if (new_object == NULL) {
             BIFIT_KERNEL_PANIC("ERROR: OutOfMemory")
         }
@@ -30,6 +32,7 @@ bifit_object_t *bifit_object_create() {
     }
 
     bifit_object_node_t *register_node = malloc(sizeof(struct bifit_object_node));
+    BIFIT_DEBUG_GC("malloc 24 %p\n", register_node);
     register_node->object = new_object;
     register_node->next = bifit_object_register;
     register_node->prev = NULL;

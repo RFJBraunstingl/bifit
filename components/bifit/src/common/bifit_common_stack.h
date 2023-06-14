@@ -21,6 +21,7 @@ typedef struct bifit_stack {
 
 bifit_stack_element_t *bifit_stack_create_element_with_data(void *data) {
     bifit_stack_element_t *element = malloc(sizeof(struct bifit_stack_element));
+    BIFIT_DEBUG_GC("malloc 10 %p\n", element);
 
     element->prev = NULL;
     element->next = NULL;
@@ -58,6 +59,7 @@ void *bifit_stack_pop(bifit_stack_t *stack) {
             stack->top->next = NULL;
         }
 
+        printf("free 10 %p\n", ref);
         free(ref);
         return data;
     }

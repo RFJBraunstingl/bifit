@@ -27,6 +27,7 @@ void bifit_load_constant_pool(const uint8_t data[], bifit_constant_pool_t *out) 
     out->entries = malloc(
             sizeof(struct bifit_constant_pool_entry) * number_of_entries
     );
+    BIFIT_DEBUG_GC("malloc 4 %p\n", out->entries);
     out->entry_count = number_of_entries;
 
     int byte_index = 10;

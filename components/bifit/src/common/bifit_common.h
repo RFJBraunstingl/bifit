@@ -104,6 +104,7 @@ void bifit_resolved_static_reference_put(
 ) {
 
     bifit_resolved_static_reference_node_t *new_node = malloc(sizeof(struct bifit_resolved_static_reference_node));
+    BIFIT_DEBUG_GC("malloc 11 %p\n", new_node);
     new_node->class_identifier = class_identifier;
     new_node->field_identifier = field_identifier;
     new_node->reference = reference;
