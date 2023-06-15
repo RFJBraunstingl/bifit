@@ -1,52 +1,54 @@
-# bifit
+# BIFIT
 
-Starts a FreeRTOS task to print "Hello World".
+**B**ytecode **I**nterpreter **F**or **I**nternet **T**hings
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+## Demo
+- [Hello World](https://youtu.be/p13rb7PnpW0)
+- [Garbage Collection](https://youtu.be/W1QmoSAzkl8)
+
+## Background
+I will turn this in as my assignment for the lecture Abstract Machines (2023S) at the technical university of Vienna.
+
+The assignment was to create an abstract machine.
+
+The vision for bifit was to create something that runs Java code on the ESP32, which is a popular SoC for IoT Applications.
+
+The ESP32 vendor espressif sells various dev kits (e.g. [this one](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/hw-reference/esp32c3/user-guide-devkitc-02.html)) which can be used to tinker with the chip.
+
+Furthermore espressif provides [esp-idf](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/), which is a Software development environment based on a FreeRTOS port for the esp32.
 
 ## How to use example
+1. build the example you want to run (examples are simply the top level directories in the `examples` directory - e.g. `hello-world`)
+    ```
+    cd examples
+    ./build.sh hello-world
+    ```
+2. build the project using esp-idf - the bytecode is packed into the built image
 
-Follow detailed instructions provided specifically for this example. 
+## Implementation Overview
+This repo contains simple Java examples, which are runnable using bifit (and one groovy example which is sadly not runnable on the hardware, because it includes the groovy library, which amounts to 19MB).
 
-Select the instructions depending on Espressif chip installed on your development board:
+This repo further includes the code to take the Java code, compile it, and pack it into the image which is flashed on the chip.
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+The esp-idf main method simply calls the bifit main method, which loads the packed classes and starts executing the main class specified by the JAR file.
 
+### the build system
+esp-idf is built using CMake, CMake also has the task to process the Java Bytecode into the image to be flashed.
 
-## Example folder contents
+The code for this can be found in `./EmbedJarContent.cmake`. In order to run Java code, you 
+1. need to compile it into a runnable JAR file (take a look at the examples to see how could be done using gradle)
+2. unzip the JAR file into a top level directory called `./jar` (the `./examples/build.sh` script does this)
+3. build the project using esp-idf, which invokes CMake (CMake then takes the content of the `./jar` directory and generates C-Header files for every class)
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+These header files are then included by bifit as the component "classes_combined".
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both). 
+### the interpreter
+The bifit component (`./components/bifit`) is where all the code for executing the bytecode is implemented.
 
-Below is short explanation of remaining files in the project folder.
+bifit includes a classloader, which parses all classes included via the `classes_combined` component.
 
-```
-├── CMakeLists.txt
-├── example_test.py            Python script used for automated example testing
-├── main
-│   ├── CMakeLists.txt
-│   ├── component.mk           Component make file
-│   └── hello_world_main.c
-├── Makefile                   Makefile used by legacy GNU Make
-└── README.md                  This is the file you are currently reading
-```
+The information extracted from the META-INF file is then used to lookup the main class, which is in turn scanned for the `public static void main(String... args)` method to be executed.
 
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
+The heart of the interpreter can be found in `./components/bifit/interpreter/bifit_interpreter.h` which steps through the opcodes of the executed method and invokes the implementation of the current opcode (see the [official reference](https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-6.html) for information on the opcodes).
 
-## Troubleshooting
-
-* Program upload failure
-
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
+In the same file one may find which opcodes are currently supported by the implementation (just enough opcodes to successfully run the examples is implemented).
