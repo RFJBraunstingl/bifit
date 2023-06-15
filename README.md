@@ -87,3 +87,8 @@ bifit implements a basic mark-and-sweep garbage collector ([here](https://journa
 The garbage collector actually does collect garbage - proof of that is the example "garbage-collection", where unnecessary objects are created which have to be collected to ensure the heap is not starved out.
 
 To see the running example, please refer to the video link in the Demo section.
+
+## Running locally
+There is a test file included at `./test/run-local.c` which shows bifit's configuration options and incudes everything so the bytecode interpreter can be run locally (e.g. by using VSCode or CLion).
+
+You can even monitor the local memory consumption (to check that garbage collection works) by using `./watch-rss.sh` on a UNIX-like system.
