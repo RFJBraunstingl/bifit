@@ -50,12 +50,17 @@ void periodically_print_heap_usage() {
         ESP_LOGI("main", "heap ticker started!");
 }
 
+void wrap_bifit_run(void *taskHandle) {
+        bifit_run();
+        vTaskDelete(taskHandle);
+}
+
 void create_bifit_task() {
 
     ESP_LOGI("main", "running bifit...");
     
     TaskHandle_t taskHandle = NULL;
-    xTaskCreate(bifit_run, "bifit main task", 4096, NULL, tskIDLE_PRIORITY, &taskHandle);
+    xTaskCreate(wrap_bifit_run, "bifit main task", 4096, (void *)taskHandle, tskIDLE_PRIORITY, &taskHandle);
 }
 
 void app_main(void)
