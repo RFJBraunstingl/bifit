@@ -7,7 +7,7 @@
 - [Garbage Collection](https://youtu.be/W1QmoSAzkl8)
 
 ## Background
-I will turn this in as my assignment for the lecture Abstract Machines (2023S) at the technical university of Vienna.
+I will turn this in as my assignment for the lecture Abstract Machines (2023S) at the [TU Wien](https://www.tuwien.at/en).
 
 The assignment was to create an abstract machine.
 
